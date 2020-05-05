@@ -9,6 +9,7 @@ import java.util.HashSet;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "IntendedSDG")
 public class IntendedSDG implements Serializable {
