@@ -38,7 +38,7 @@ public class IntendedSDG implements Serializable {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "NGOs")
+            mappedBy = "SDGs")
     private Set<NGO> NGOs = new HashSet<>();
 
     public IntendedSDG() {}
