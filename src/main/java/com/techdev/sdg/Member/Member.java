@@ -1,6 +1,6 @@
 package com.techdev.sdg.Member;
 
-import com.techdev.sdg.NGO.NGOModel;
+//import com.techdev.sdg.NGO.NGOModel;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ public class Member {
     final public static String EMAIL = "email";
     final public static String PHONE = "phoneNumber";
     final public static PrivateSector PRIVATESECTOR = new PrivateSector();
-    final public static NGOModel NGO = new NGOModel();
+//    final public static NGOModel NGO = new NGOModel();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,9 +25,9 @@ public class Member {
     @Column(name = "phoneNumber", nullable = false)
     private String phoneNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ngo", referencedColumnName = "id")
-    private NGOModel ngo;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "ngo", referencedColumnName = "id")
+//    private NGOModel ngo;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "privateSector_id", referencedColumnName = "id")
@@ -51,9 +51,9 @@ public class Member {
     public void setPrivateSector(PrivateSector privateSector) {
         this.privateSector = privateSector;
     }
-    public void setNGO(NGOModel ngo) {
-        this.ngo = ngo;
-    }
+//    public void setNGO(NGOModel ngo) {
+//        this.ngo = ngo;
+//    }
 
     public Long getId() { return id;}
 
@@ -67,7 +67,7 @@ public class Member {
 
     public PrivateSector getPrivateSector() { return privateSector;}
 
-    public NGOModel getNGO() { return ngo;}
+//    public NGOModel getNGO() { return ngo;}
 
     @Override
     public String toString() {
@@ -75,7 +75,7 @@ public class Member {
                 "\tid: " + id + ",\n" +
                 "\temail: " + email + ",\n" +
                 "\tphoneNumber: " + phoneNumber + ",\n" +
-                "\tngo: " + ngo + ",\n" +
+//                "\tngo: " + ngo + ",\n" +
                 "\tprivateSector" + privateSector + ",\n" +
                 '}';
     }
