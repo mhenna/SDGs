@@ -1,7 +1,7 @@
 package com.techdev.sdg.intendedSDG;
 
 import com.techdev.sdg.PrivateSector.PrivateSector;
-import com.techdev.sdg.NGO.NGO;
+//import com.techdev.sdg.NGO.NGO;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,21 +25,21 @@ public class IntendedSDG implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "SDGs")
-    private Set<PrivateSector> PrivateSectors = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            },
+//            mappedBy = "SDGs")
+//    private Set<PrivateSector> PrivateSectors = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "SDGs")
-    private Set<NGO> NGOs = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            },
+//            mappedBy = "SDGs")
+//    private Set<NGO> NGOs = new HashSet<>();
 
     public IntendedSDG() {}
 
@@ -55,21 +55,21 @@ public class IntendedSDG implements Serializable {
         return name;
     }
 
-    public Set<PrivateSector> getPrivateSectors() {
-        return PrivateSectors;
-    }
+//    public Set<PrivateSector> getPrivateSectors() {
+//        return PrivateSectors;
+//    }
 
-    public void setPrivateSectors(Set<PrivateSector> PrivateSectors) {
-        this.PrivateSectors = PrivateSectors;
-    }
+//    public void setPrivateSectors(Set<PrivateSector> PrivateSectors) {
+//        this.PrivateSectors = PrivateSectors;
+//    }
 
-    public Set<NGO> getNGOs() {
-        return NGOs;
-    }
+//    public Set<NGO> getNGOs() {
+//        return NGOs;
+//    }
 
-    public void setNGOs(Set<NGO> NGOs) {
-        this.NGOs = NGOs;
-    }
+//    public void setNGOs(Set<NGO> NGOs) {
+//        this.NGOs = NGOs;
+//    }
 
     @Override
     public String toString() {

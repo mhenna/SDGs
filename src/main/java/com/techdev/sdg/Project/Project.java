@@ -1,14 +1,15 @@
 package com.techdev.sdg.Project;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.PrivateSector.PrivateSector;
-import com.techdev.sdg.NGO.NGO;
+//import com.techdev.sdg.NGO.NGO;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
-
-
 
 @Entity
 @Table(name = "Project")
@@ -23,7 +24,6 @@ public class Project implements  Serializable {
     final public static String WORKLOCATION = "workLocation";
     final public static String PRIVATESECTOR = "privateSector";
     final public static String NGOS = "ngo";
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,35 +42,36 @@ public class Project implements  Serializable {
     @Column(name = "PeopleTargeted", nullable = false)
     private Long peopleTargeted;
 
-    @OneToMany(mappedBy="parentProject")
-    private Set<Project> subProjects;
+//    @OneToMany(mappedBy="parentProject")
+//    private Set<Project> subProjects;
 
-    @ManyToOne
-    private Project parentProject;
+//    @ManyToOne
+//    private Project parentProject;
 
-    @Column(name = "workLocation")
-    @ManyToOne
-    @JoinColumn(name="project_workLocation")
-    private WorkLocation workLocation;
+//    @Column(name = "workLocation")
+//    @ManyToOne
+//    @JoinColumn(name="project_workLocation")
+//    private WorkLocation workLocation;
 
     @Column(name = "privateSector")
-    @ManyToMany
-    @JoinTable(
-            name = "project_privateSector",
-            joinColumns = @JoinColumn(name = "privateSectorId"),
-            inverseJoinColumns = @JoinColumn(name = "projectId")
-    )
-    private Set<PrivateSector> privateSectors;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "projects")
+    @JsonBackReference
+    private Set<PrivateSector> privateSectors = new HashSet<>();
 
 
-    @Column(name = "NGO")
-    @ManyToMany
-    @JoinTable(
-            name = "project_NGO",
-            joinColumns = @JoinColumn(name = "NGOId"),
-            inverseJoinColumns = @JoinColumn(name = "projectId")
-    )
-    private Set<NGO> NGOs;
+//    @Column(name = "NGO")
+//    @ManyToMany
+//    @JoinTable(
+//            name = "project_NGO",
+//            joinColumns = @JoinColumn(name = "NGOId"),
+//            inverseJoinColumns = @JoinColumn(name = "projectId")
+//    )
+//    private Set<NGO> NGOs;
 
     public Project() {}
 
@@ -97,33 +98,28 @@ public class Project implements  Serializable {
     }
 
     public void setPeopleTargeted(Long peopleTargeted) {
-
         this.peopleTargeted = peopleTargeted;
     }
 
-    public void setSubProjects(Set<Project> subProjects) {
-
-        this.subProjects = subProjects;
-    }
-
-    public void setParentProject(Project parentProject) {
-
-        this.parentProject = parentProject;
-    }
-
-    public void setWorkLocation(WorkLocation workLocations) {
-
-        this.workLocation = workLocations;
-    }
+//    public void setSubProjects(Set<Project> subProjects) {
+//        this.subProjects = subProjects;
+//    }
+//
+//    public void setParentProject(Project parentProject) {
+//        this.parentProject = parentProject;
+//    }
+//
+//    public void setWorkLocation(WorkLocation workLocations) {
+//        this.workLocation = workLocations;
+//    }
 
     public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-
         this.privateSectors = privateSectors;
     }
 
-    public void setNGOs(Set<NGO> NGOs) {
-        this.NGOs = NGOs;
-    }
+//    public void setNGOs(Set<NGO> NGOs) {
+//        this.NGOs = NGOs;
+//    }
 
     public String getName() {
         return name;
@@ -138,45 +134,42 @@ public class Project implements  Serializable {
     }
 
     public Long getPeopleTargeted() {
-
         return peopleTargeted;
    }
 
-    public Set<Project> getSubProjects() {
-        return subProjects;
-    }
-
-    public Project getParentProject() {
-
-        return parentProject;
-    }
-
-    public WorkLocation getWorkLocations() {
-        return workLocation;
-    }
+//    public Set<Project> getSubProjects() {
+//        return subProjects;
+//    }
+//
+//    public Project getParentProject() {
+//        return parentProject;
+//    }
+//
+//    public WorkLocation getWorkLocations() {
+//        return workLocation;
+//    }
 
     public Set<PrivateSector> getPrivateSectors() {
-
         return privateSectors;
     }
 
-    public Set<NGO> getNGOs() {
-
-        return NGOs;
-   }
+//    public Set<NGO> getNGOs() {
+//
+//        return NGOs;
+//   }
 
     @Override
     public String toString() {
-        return "Project: {\n" +
-                "\tid: " + id + ",\n" +
-                "\tname: " + name + ",\n" +
-                "\taim: " + aim + ",\n" +
-                "\tduration: " + duration + ",\n" +
-                "\tpeople targeted: " + peopleTargeted + ",\n" +
-                "\tsubProjects: " + subProjects + ",\n" +
-                "\tworkLocation: " + workLocation + ",\n" +
-                "\tprivateSectors: " + privateSectors + ",\n" +
-                "\tNGOs" + NGOs + ",\n" +
-                '}';
+        return "\n\tProject: {\n" +
+                "\t\tid: " + id + ",\n" +
+                "\t\tname: " + name + ",\n" +
+                "\t\taim: " + aim + ",\n" +
+                "\t\tduration: " + duration + ",\n" +
+                "\t\tpeople targeted: " + peopleTargeted + ",\n" +
+//                "\tsubProjects: " + subProjects + ",\n" +
+//                "\tworkLocation: " + workLocation + ",\n" +
+//                "\tprivateSectors: " + privateSectors + ",\n" +
+//                "\tNGOs" + NGOs + ",\n" +
+                "\t}";
     }
 }

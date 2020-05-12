@@ -1,7 +1,8 @@
 package com.techdev.sdg.DirectionToImpact;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.techdev.sdg.PrivateSector.PrivateSector;
-import com.techdev.sdg.NGO.NGO;
+//import com.techdev.sdg.NGO.NGO;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,23 +26,26 @@ public class DirectionToImpact implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "privateSector")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
             },
-            mappedBy = "DirectionsToImpact")
-    private Set<PrivateSector> PrivateSectors = new HashSet<>();
+            mappedBy = "directionToImpact")
+    @JsonBackReference
+    private Set<PrivateSector> privateSectors = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "DirectionsToImpact")
-    private Set<NGO> NGOs = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.LAZY,
+//            cascade = {
+//                    CascadeType.PERSIST,
+//                    CascadeType.MERGE
+//            },
+//            mappedBy = "DirectionsToImpact")
+//    private Set<NGO> NGOs = new HashSet<>();
 
-    public DirectionToImpact() {}
+    public DirectionToImpact() {
+    }
 
     public DirectionToImpact(String name) {
         setName(name);
@@ -56,24 +60,24 @@ public class DirectionToImpact implements Serializable {
     }
 
     public Set<PrivateSector> getPrivateSectors() {
-        return PrivateSectors;
+        return privateSectors;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> PrivateSectors) {
-        this.PrivateSectors = PrivateSectors;
+    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
+        this.privateSectors = privateSectors;
     }
 
-    public Set<NGO> getNGOs() {
-        return NGOs;
-    }
+//    public Set<NGO> getNGOs() {
+//        return NGOs;
+//    }
 
-    public void setNGOs(Set<NGO> NGOs) {
-        this.NGOs = NGOs;
-    }
+//    public void setNGOs(Set<NGO> NGOs) {
+//        this.NGOs = NGOs;
+//    }
 
     @Override
     public String toString() {
-        return "Direction To Impact: {\n" +  "\tid: " + id + ",\n" +
+        return "Direction To Impact: {\n" + "\tid: " + id + ",\n" +
                 "\tname: " + name + ",\n" +
                 '}';
     }
