@@ -6,6 +6,7 @@ import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
+import com.techdev.sdg.Utils;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.WorkLocation.WorkLocationRepository;
 import net.minidev.json.JSONArray;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class PrivateSectorService {
+
+    @Autowired
+    private Utils utils;
 
     @Autowired
     private PrivateSectorRepository repository;
@@ -45,29 +49,22 @@ public class PrivateSectorService {
                 Objects.toString(body.get(PrivateSector.PASSWORD), null)
         );
 
-        Project project = projectRepository.findById(Long.parseLong(body.get(PrivateSector.PROJECT).toString())).get();
+        List<Long> projectIds = utils.getIdsListFromReqBody(body, PrivateSector.PROJECT);
+        List<Project> projects = projectRepository.findAllById(projectIds);
 
-        List<Integer> worklocationIds = JSONValue.parse(body.get(PrivateSector.WORKLOCATION).toString(),
-                ArrayList.class);
-        List<Long> workLocationsLongValues = worklocationIds.stream().map(Integer::longValue)
-                .collect(Collectors.toList());
-        List<WorkLocation> workLocations = workLocationRepository.findAllById(workLocationsLongValues);
+        List<Long> worklocationIds = utils.getIdsListFromReqBody(body, PrivateSector.WORKLOCATION);
+        List<WorkLocation> workLocations = workLocationRepository.findAllById(worklocationIds);
 
-        List<Integer> resourceIds = JSONValue.parse(body.get(PrivateSector.RESOURCE).toString(), ArrayList.class);
-        List<Long> resourceLongValues = resourceIds.stream().map(Integer::longValue).collect(Collectors.toList());
-        List<Resource> resources = resourceRepository.findAllById(resourceLongValues);
+        List<Long> resourceIds = utils.getIdsListFromReqBody(body, PrivateSector.RESOURCE);
+        List<Resource> resources = resourceRepository.findAllById(resourceIds);
 
-        List<Integer> directionToImpactIds = JSONValue.parse(body.get(PrivateSector.DIRECTIONTOIMPACT).toString(),
-                ArrayList.class);
-        List<Long> directionToImpactValues = directionToImpactIds.stream().map(Integer::longValue)
-                .collect(Collectors.toList());
-        List<DirectionToImpact> directionsToImpact = directionToImpactRepository.findAllById(directionToImpactValues);
+        List<Long> directionToImpactIds = utils.getIdsListFromReqBody(body, PrivateSector.DIRECTIONTOIMPACT);
+        List<DirectionToImpact> directionsToImpact = directionToImpactRepository.findAllById(directionToImpactIds);
 
-        ps.getProjects().add(project);
+        ps.getProjects().addAll(projects);
         ps.getWorkLocations().addAll(workLocations);
         ps.getResources().addAll(resources);
         ps.getDirectionToImpact().addAll(directionsToImpact);
-
         repository.save(ps);
         return ps;
     }

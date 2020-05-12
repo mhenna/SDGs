@@ -26,10 +26,15 @@ public class WorkLocation implements Serializable {
     @Column(name = "area", nullable = false)
     private String area;
 
-    //    @Column(name = "project")
-//    @OneToMany(mappedBy = "workLocation", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private Set<Project> projects;
+    @Column(name = "project")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "workLocations")
+    @JsonBackReference
+    private Set<Project> projects;
 //
     @Column(name = "privateSector")
     @ManyToMany(fetch = FetchType.LAZY,
@@ -52,9 +57,9 @@ public class WorkLocation implements Serializable {
         this.area = area;
     }
 
-//    public void setProjects(Set<Project> projects) {
-//        this.projects = projects;
-//    }
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
 
     public void setPrivateSectors(Set<PrivateSector> privateSectors) {
         this.privateSectors = privateSectors;
@@ -70,6 +75,10 @@ public class WorkLocation implements Serializable {
 
     public Set<PrivateSector> getPrivateSectors() {
         return privateSectors;
+    }
+
+    public void addPrivateSector(PrivateSector ps) {
+        getPrivateSectors().add(ps);
     }
 
     @Override
