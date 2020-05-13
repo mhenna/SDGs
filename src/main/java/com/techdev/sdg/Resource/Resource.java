@@ -67,6 +67,10 @@ public class Resource implements Serializable {
         this.privateSectors = privateSectors;
     }
 
+    public void addPrivateSector(PrivateSector ps) {
+        getPrivateSectors().add(ps);
+    }
+
 //    public Set<NGO> getNGOs() {
 //        return NGOs;
 //    }
