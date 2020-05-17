@@ -1,12 +1,15 @@
 package com.techdev.sdg.intendedSDG;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.PrivateSector.PrivateSector;
-//import com.techdev.sdg.NGO.NGO;
 
 import java.io.Serializable;
 import java.util.HashSet;
-
-
+import java.util.Set;
 import javax.persistence.*;
 
 
@@ -25,21 +28,25 @@ public class IntendedSDG implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "SDGs")
-//    private Set<PrivateSector> PrivateSectors = new HashSet<>();
+    @Column(name = "ngo")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "intendedSDGs")
+    @JsonBackReference
+    private Set<NGO> ngos = new HashSet<>();
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "SDGs")
-//    private Set<NGO> NGOs = new HashSet<>();
+    @Column(name = "privateSector")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "intendedSDGs")
+    @JsonBackReference
+    private Set<PrivateSector> privateSectors = new HashSet<>();
 
     public IntendedSDG() {}
 
@@ -55,21 +62,21 @@ public class IntendedSDG implements Serializable {
         return name;
     }
 
-//    public Set<PrivateSector> getPrivateSectors() {
-//        return PrivateSectors;
-//    }
+    public Set<PrivateSector> getPrivateSectors() {
+        return privateSectors;
+    }
 
-//    public void setPrivateSectors(Set<PrivateSector> PrivateSectors) {
-//        this.PrivateSectors = PrivateSectors;
-//    }
+    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
+        this.privateSectors = privateSectors;
+    }
 
-//    public Set<NGO> getNGOs() {
-//        return NGOs;
-//    }
+    public Set<NGO> getNGOs() {
+        return ngos;
+    }
 
-//    public void setNGOs(Set<NGO> NGOs) {
-//        this.NGOs = NGOs;
-//    }
+    public void setNGOs(Set<NGO> NGOs) {
+        this.ngos = NGOs;
+    }
 
     @Override
     public String toString() {
