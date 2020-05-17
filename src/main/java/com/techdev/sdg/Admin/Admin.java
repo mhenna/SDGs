@@ -21,7 +21,7 @@ public class Admin {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phoneNumber", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
 //    @ManyToOne(cascade = CascadeType.ALL)
