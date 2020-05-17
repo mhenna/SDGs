@@ -34,3 +34,5 @@ out/
 /src/main/resources/application.properties
 
 .DS_Store
+
+*.class
