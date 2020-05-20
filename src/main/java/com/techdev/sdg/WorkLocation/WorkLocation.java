@@ -2,6 +2,8 @@ package com.techdev.sdg.WorkLocation;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Project.Project;
 
@@ -35,7 +37,6 @@ public class WorkLocation implements Serializable {
             mappedBy = "workLocations")
     @JsonBackReference
     private Set<Project> projects;
-//
     @Column(name = "privateSector")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -45,6 +46,16 @@ public class WorkLocation implements Serializable {
             mappedBy = "workLocations")
     @JsonBackReference
     private Set<PrivateSector> privateSectors = new HashSet<>();
+
+    @Column(name = "ngo")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "workLocations")
+    @JsonBackReference
+    private Set<NGO> ngos = new HashSet<>();
 
     public WorkLocation() {
     }
@@ -65,6 +76,10 @@ public class WorkLocation implements Serializable {
         this.privateSectors = privateSectors;
     }
 
+    public void setNGOs(Set<NGO> NGOs) {
+        this.ngos = NGOs;
+    }
+
     public String getArea() {
         return area;
     }
@@ -77,6 +92,10 @@ public class WorkLocation implements Serializable {
         return privateSectors;
     }
 
+    public Set<NGO> getNGOs() {
+        return ngos;
+    }
+
     public void addPrivateSector(PrivateSector ps) {
         getPrivateSectors().add(ps);
     }
@@ -86,8 +105,6 @@ public class WorkLocation implements Serializable {
         return "WorkLocation: {\n" +
                 "\tid: " + id + ",\n" +
                 "\tarea: " + area + ",\n" +
-//                "\tprojects: " + projects + ",\n" +
-//                "\tprivateSectors: " + privateSectors + ",\n" +
                 '}';
     }
 }

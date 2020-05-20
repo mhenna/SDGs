@@ -2,6 +2,7 @@ package com.techdev.sdg.Project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import org.hibernate.jdbc.Work;
@@ -72,15 +73,15 @@ public class Project implements Serializable {
     @JsonBackReference
     private Set<PrivateSector> privateSectors = new HashSet<>();
 
-
-//    @Column(name = "NGO")
-//    @ManyToMany
-//    @JoinTable(
-//            name = "project_NGO",
-//            joinColumns = @JoinColumn(name = "NGOId"),
-//            inverseJoinColumns = @JoinColumn(name = "projectId")
-//    )
-//    private Set<NGO> NGOs;
+    @Column(name = "ngo")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "projects")
+    @JsonBackReference
+    private Set<NGO> ngos = new HashSet<>();
 
     public Project() {
     }
@@ -128,9 +129,9 @@ public class Project implements Serializable {
         getPrivateSectors().add(ps);
     }
 
-//    public void setNGOs(Set<NGO> NGOs) {
-//        this.NGOs = NGOs;
-//    }
+    public void setNGOs(Set<NGO> NGOs) {
+        this.ngos = NGOs;
+    }
 
     public String getName() {
         return name;
@@ -155,7 +156,7 @@ public class Project implements Serializable {
     public Project getParentProject() {
         return parentProject;
     }
-//
+
     public Set<WorkLocation> getWorkLocations() {
         return workLocations;
     }
@@ -164,10 +165,9 @@ public class Project implements Serializable {
         return privateSectors;
     }
 
-//    public Set<NGO> getNGOs() {
-//
-//        return NGOs;
-//   }
+    public Set<NGO> getNGOs() {
+        return ngos;
+   }
 
     @Override
     public String toString() {
@@ -177,10 +177,7 @@ public class Project implements Serializable {
                 "\t\taim: " + aim + ",\n" +
                 "\t\tduration: " + duration + ",\n" +
                 "\t\tpeople targeted: " + peopleTargeted + ",\n" +
-//                "\tsubProjects: " + subProjects + ",\n" +
                 "\t\tworkLocation: " + workLocations + ",\n" +
-//                "\tprivateSectors: " + privateSectors + ",\n" +
-//                "\tNGOs" + NGOs + ",\n" +
                 "\t}";
     }
 }
