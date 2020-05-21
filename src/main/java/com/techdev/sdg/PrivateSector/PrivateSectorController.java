@@ -23,7 +23,7 @@ public class PrivateSectorController {
         ResponseEntity<Object> res;
         try {
             PrivateSector ps = service.save(body);
-            res = new ResponseEntity<Object>(ps, HttpStatus.OK);
+            res = new ResponseEntity<Object>(ps.toMap(), HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<Object>("Unexpected error occured: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

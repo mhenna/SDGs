@@ -1,6 +1,7 @@
 package com.techdev.sdg.DirectionToImpact;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 //import com.techdev.sdg.NGO.NGO;
 
@@ -36,13 +37,15 @@ public class DirectionToImpact implements Serializable {
     @JsonBackReference
     private Set<PrivateSector> privateSectors = new HashSet<>();
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "DirectionsToImpact")
-//    private Set<NGO> NGOs = new HashSet<>();
+    @Column(name = "ngo")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "directionToImpact")
+    @JsonBackReference
+    private Set<NGO> ngos = new HashSet<>();
 
     public DirectionToImpact() {
     }
@@ -67,13 +70,13 @@ public class DirectionToImpact implements Serializable {
         this.privateSectors = privateSectors;
     }
 
-//    public Set<NGO> getNGOs() {
-//        return NGOs;
-//    }
+    public Set<NGO> getNGOs() {
+        return ngos;
+    }
 
-//    public void setNGOs(Set<NGO> NGOs) {
-//        this.NGOs = NGOs;
-//    }
+    public void setNGOs(Set<NGO> NGOs) {
+        this.ngos = NGOs;
+    }
 
     @Override
     public String toString() {
