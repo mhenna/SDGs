@@ -159,6 +159,10 @@ public class PrivateSector implements Serializable {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public Boolean getIsApproved() {
         return isApproved;
     }

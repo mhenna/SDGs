@@ -13,6 +13,7 @@ import com.techdev.sdg.WorkLocation.WorkLocationRepository;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
 import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,11 +45,14 @@ public class NGOService {
     @Autowired
     private IntendedSDGRepository intendedSDGRepository;
 
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
     public NGO save(Map<String, Object> body, List<File> files) {
         NGO ngo = new NGO(
                 Objects.toString(body.get(NGO.NAME), null),
                 Objects.toString(body.get(NGO.EMAIL), null),
-                Objects.toString(body.get(NGO.PASSWORD), null),
+                bcryptEncoder.encode(Objects.toString(body.get(NGO.PASSWORD), null)),
                 Objects.toString(body.get(NGO.MAINCONTACT), null),
                 Objects.toString(body.get(NGO.VISION), null)
         );

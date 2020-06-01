@@ -187,6 +187,10 @@ public class NGO implements Serializable {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getMainContact() {
         return mainContact;
     }

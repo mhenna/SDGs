@@ -12,6 +12,7 @@ import com.techdev.sdg.WorkLocation.WorkLocationRepository;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
 import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -40,11 +41,14 @@ public class PrivateSectorService {
     @Autowired
     private IntendedSDGRepository intendedSDGRepository;
 
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
     public PrivateSector save(Map<String, Object> body) {
         PrivateSector ps = new PrivateSector(
                 Objects.toString(body.get(PrivateSector.NAME), null),
                 Objects.toString(body.get(PrivateSector.EMAIL), null),
-                Objects.toString(body.get(PrivateSector.PASSWORD), null)
+                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null))
         );
 
         List<Long> projectIds = utils.getIdsListFromReqBody(body, PrivateSector.PROJECT);
