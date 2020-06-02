@@ -75,4 +75,12 @@ public class PrivateSectorService {
         repository.save(ps);
         return ps;
     }
+
+    public PrivateSector findById(Long id) throws Exception {
+        PrivateSector ps = repository.findById(id).get();
+        if (Objects.isNull(ps))
+            throw new Exception ("NGO with specified id does not exist");
+        else
+            return ps;
+    }
 }
