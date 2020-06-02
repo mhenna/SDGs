@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// csrf tokens are off for now
 		httpSecurity.csrf().disable()
 
-				.authorizeRequests().antMatchers("/authenticate","/registerPrivateSector","/registerNGO").permitAll().
+				.authorizeRequests().antMatchers("/authenticate","/privateSector/register","/ngo/register").permitAll().
 
 						anyRequest().authenticated().and().
 

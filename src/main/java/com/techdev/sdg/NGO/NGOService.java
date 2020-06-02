@@ -85,4 +85,12 @@ public class NGOService {
 
         return repository.save(ngo);
     }
+
+    public NGO findById(Long id) throws Exception {
+        NGO ngo = repository.findById(id).get();
+        if (Objects.isNull(ngo))
+            throw new Exception ("NGO with specified id does not exist");
+        else
+            return ngo;
+    }
 }
