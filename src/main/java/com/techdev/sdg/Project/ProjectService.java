@@ -1,9 +1,14 @@
 package com.techdev.sdg.Project;
 
 import com.techdev.sdg.PrivateSector.PrivateSector;
+import com.techdev.sdg.Resource.Resource;
+import com.techdev.sdg.Resource.ResourceRepository;
 import com.techdev.sdg.Utils;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.WorkLocation.WorkLocationRepository;
+import com.techdev.sdg.intendedSDG.IntendedSDG;
+import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,12 @@ public class ProjectService {
     private WorkLocationRepository workLocationRepository;
 
     @Autowired
+    private ResourceRepository resourceRepository;
+
+    @Autowired
+    private IntendedSDGRepository intendedSDGRepository;
+
+    @Autowired
     private Utils utils;
 
     public Project save(Map<String, Object> body) {
@@ -34,6 +45,12 @@ public class ProjectService {
         List<Long> workLocationIds = utils.getIdsListFromReqBody(body, Project.WORKLOCATION);
         List<WorkLocation> workLocations = workLocationRepository.findAllById(workLocationIds);
 
+        List<Long> resourceIds = utils.getIdsListFromReqBody(body, Project.RESOURCE);
+        List<Resource> resources = resourceRepository.findAllById(resourceIds);
+
+        List<Long> intendedSDGsIds = utils.getIdsListFromReqBody(body, Project.INTENDEDSDG);
+        List<IntendedSDG> intendedSDGs = intendedSDGRepository.findAllById(intendedSDGsIds);
+
         List<Long> subProjectIds = utils.getIdsListFromReqBody(body, Project.SUBPROJECT);
 
         if (!Objects.isNull(subProjectIds)) {
@@ -45,6 +62,8 @@ public class ProjectService {
         }
 
         p.getWorkLocations().addAll(workLocations);
+        p.getResources().addAll(resources);
+        p.getIntendedSDGs().addAll(intendedSDGs);
         repository.save(p);
         return p;
     }

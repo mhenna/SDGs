@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.WorkLocation.WorkLocation;
+import com.techdev.sdg.intendedSDG.IntendedSDG;
 import com.techdev.sdg.PrivateSector.PrivateSector;
+import com.techdev.sdg.Resource.Resource;
+
 import org.hibernate.jdbc.Work;
 //import com.techdev.sdg.NGO.NGO;
 
@@ -24,6 +27,8 @@ public class Project implements Serializable {
     final public static String PEOPLETARGETED = "peopleTargeted";
     final public static String SUBPROJECT = "subProject";
     final public static String WORKLOCATION = "workLocation";
+    final public static String RESOURCE = "resource";
+    final public static String INTENDEDSDG = "intendedSDG";
     final public static String PRIVATESECTOR = "privateSector";
     final public static String NGOS = "ngo";
 
@@ -83,6 +88,28 @@ public class Project implements Serializable {
     @JsonBackReference
     private Set<NGO> ngos = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "project_intendedSDG",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "intendedSDG_id")})
+    @JsonManagedReference
+    private Set<IntendedSDG> intendedSDGs = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "project_resource",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "resource_id")})
+    @JsonManagedReference
+    private Set<Resource> resources = new HashSet<>();
+
     public Project() {
     }
 
@@ -125,6 +152,14 @@ public class Project implements Serializable {
         this.privateSectors = privateSectors;
     }
 
+    public void setIntendedSDGs(Set<IntendedSDG> intendedSDGs) {
+        this.intendedSDGs = intendedSDGs;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
+    }
+
     public void addPrivateSector(PrivateSector ps) {
         getPrivateSectors().add(ps);
     }
@@ -165,6 +200,14 @@ public class Project implements Serializable {
         return privateSectors;
     }
 
+    public Set<IntendedSDG> getIntendedSDGs() {
+        return intendedSDGs;
+    }
+
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
     public Set<NGO> getNGOs() {
         return ngos;
    }
@@ -178,6 +221,8 @@ public class Project implements Serializable {
                 "\t\tduration: " + duration + ",\n" +
                 "\t\tpeople targeted: " + peopleTargeted + ",\n" +
                 "\t\tworkLocation: " + workLocations + ",\n" +
+                "\t\tintendedSDGs: " + intendedSDGs + ",\n" +
+                "\t\resources: " + resources + ",\n" +
                 "\t}";
     }
 }

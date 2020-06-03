@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.PrivateSector.PrivateSector;
+import com.techdev.sdg.Project.Project;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -48,6 +49,16 @@ public class IntendedSDG implements Serializable {
     @JsonBackReference
     private Set<PrivateSector> privateSectors = new HashSet<>();
 
+    @Column(name = "project")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "intendedSDGs")
+    @JsonBackReference
+    private Set<Project> projects = new HashSet<>();
+
     public IntendedSDG() {}
 
     public IntendedSDG(String name) {
@@ -56,6 +67,14 @@ public class IntendedSDG implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
     }
 
     public String getName() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 //import com.techdev.sdg.NGO.NGO;
+import com.techdev.sdg.Project.Project;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -47,6 +48,16 @@ public class Resource implements Serializable {
     @JsonBackReference
     private Set<NGO> ngos = new HashSet<>();
 
+    @Column(name = "project")
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "resources")
+    @JsonBackReference
+    private Set<Project> projects = new HashSet<>();
+
 //    @ManyToMany(fetch = FetchType.LAZY,
 //            cascade = {
 //                    CascadeType.PERSIST,
@@ -78,12 +89,20 @@ public class Resource implements Serializable {
         return ngos;
     }
 
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
     public void setPrivateSectors(Set<PrivateSector> privateSectors) {
         this.privateSectors = privateSectors;
     }
 
     public void setNGOs(Set<NGO> NGOs) {
         this.ngos = NGOs;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     public void addPrivateSector(PrivateSector ps) {
