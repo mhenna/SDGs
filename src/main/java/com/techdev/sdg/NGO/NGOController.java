@@ -28,11 +28,11 @@ public class NGOController {
     private FileService fileService;
 
     @RequestMapping(value = Router.REGISTER, method = RequestMethod.POST)
-    public ResponseEntity<Object> register(@RequestParam Map<String, Object> body,
+    public ResponseEntity<Object> register(@RequestParam Map<String, Object> body, 
                                            @RequestParam List<Long> resource,
-                                           @RequestParam List<Long> workLocation,
+                                           @RequestParam List<Long> workLocation, 
                                            @RequestParam List<Long> project,
-                                           @RequestParam List<Long> directionToImpact,
+                                           @RequestParam List<Long> directionToImpact, 
                                            @RequestParam List<Long> intendedSDG,
                                            @RequestParam("file") MultipartFile[] files) {
         ResponseEntity<Object> res;
@@ -63,9 +63,22 @@ public class NGOController {
                 res = new ResponseEntity<>(ngo.toMap(), HttpStatus.OK);
             }
         } catch (Exception e) {
-            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(), 
                     HttpStatus.INTERNAL_SERVER_ERROR);
             fileService.deleteFiles(docs);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = Router.RETRIEVE, method = RequestMethod.GET)
+    public ResponseEntity<Object> get(@PathVariable Long id) {
+        ResponseEntity<Object> res = null;
+        try {
+            NGO ngo = service.findById(id);
+            res = new ResponseEntity<>(ngo.toMap(), HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(), 
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return res;
     }
