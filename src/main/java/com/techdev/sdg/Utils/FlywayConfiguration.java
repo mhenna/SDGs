@@ -1,4 +1,4 @@
-package com.techdev.sdg;
+package com.techdev.sdg.Utils;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;

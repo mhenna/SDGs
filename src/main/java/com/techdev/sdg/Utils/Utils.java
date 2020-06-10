@@ -1,4 +1,4 @@
-package com.techdev.sdg;
+package com.techdev.sdg.Utils;
 
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
 import com.techdev.sdg.PrivateSector.PrivateSector;
