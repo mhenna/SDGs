@@ -7,7 +7,7 @@ import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
-import com.techdev.sdg.Utils;
+import com.techdev.sdg.Utils.Utils;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.WorkLocation.WorkLocationRepository;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
@@ -15,7 +15,6 @@ import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;

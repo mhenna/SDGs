@@ -6,7 +6,7 @@ import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
-import com.techdev.sdg.Utils;
+import com.techdev.sdg.Utils.Utils;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.WorkLocation.WorkLocationRepository;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
