@@ -68,6 +68,10 @@ public class WorkLocation implements Serializable {
         this.area = area;
     }
 
+    public void setID(Long id) {this.id = id;}
+
+    public Long getId(){return id;}
+
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
