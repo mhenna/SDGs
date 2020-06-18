@@ -56,8 +56,6 @@ public class NGOService {
                 Objects.toString(body.get(NGO.VISION), null)
         );
 
-        List<Long> projectIds = utils.getIdsListFromReqBody(body, NGO.PROJECT);
-        List<Project> projects = projectRepository.findAllById(projectIds);
 
         List<Long> worklocationIds = utils.getIdsListFromReqBody(body, NGO.WORKLOCATION);
         List<WorkLocation> workLocations = workLocationRepository.findAllById(worklocationIds);
@@ -73,7 +71,6 @@ public class NGOService {
 
         ngo.getDirectionToImpact().addAll(directionsToImpact);
         ngo.getIntendedSDGs().addAll(intendedSDGs);
-        ngo.getProjects().addAll(projects);
         ngo.getWorkLocations().addAll(workLocations);
         ngo.getResources().addAll(resources);
         ngo.getFiles().addAll(files);
@@ -81,7 +78,6 @@ public class NGOService {
         for (File f : files) {
             f.setNgo(ngo);
         }
-
         return repository.save(ngo);
     }
 

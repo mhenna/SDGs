@@ -51,8 +51,6 @@ public class PrivateSectorService {
                 bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null))
         );
 
-        List<Long> projectIds = utils.getIdsListFromReqBody(body, PrivateSector.PROJECT);
-        List<Project> projects = projectRepository.findAllById(projectIds);
 
         List<Long> worklocationIds = utils.getIdsListFromReqBody(body, PrivateSector.WORKLOCATION);
         List<WorkLocation> workLocations = workLocationRepository.findAllById(worklocationIds);
@@ -66,7 +64,6 @@ public class PrivateSectorService {
         List<Long> intendedSDGIds = utils.getIdsListFromReqBody(body, PrivateSector.INTENDEDSDG);
         List<IntendedSDG> intendedSDGs = intendedSDGRepository.findAllById(intendedSDGIds);
 
-        ps.getProjects().addAll(projects);
         ps.getWorkLocations().addAll(workLocations);
         ps.getResources().addAll(resources);
         ps.getDirectionToImpact().addAll(directionsToImpact);
