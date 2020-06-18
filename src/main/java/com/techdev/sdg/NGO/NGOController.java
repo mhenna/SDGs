@@ -30,15 +30,13 @@ public class NGOController {
     @RequestMapping(value = Router.REGISTER, method = RequestMethod.POST)
     public ResponseEntity<Object> register(@RequestParam Map<String, Object> body, 
                                            @RequestParam List<Long> resource,
-                                           @RequestParam List<Long> workLocation, 
-                                           @RequestParam List<Long> project,
-                                           @RequestParam List<Long> directionToImpact, 
+                                           @RequestParam List<Long> workLocation,
+                                           @RequestParam List<Long> directionToImpact,
                                            @RequestParam List<Long> intendedSDG,
                                            @RequestParam("file") MultipartFile[] files) {
         ResponseEntity<Object> res;
         body.put(NGO.RESOURCE, resource);
         body.put(NGO.WORKLOCATION, workLocation);
-        body.put(NGO.PROJECT, project);
         body.put(NGO.DIRECTIONTOIMPACT, directionToImpact);
         body.put(NGO.INTENDEDSDG, intendedSDG);
 
