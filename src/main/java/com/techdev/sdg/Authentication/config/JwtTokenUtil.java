@@ -1,5 +1,7 @@
 package com.techdev.sdg.Authentication.config;
 
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.PrivateSector.PrivateSector;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,8 +49,10 @@ public class JwtTokenUtil implements Serializable {
 		return expiration.before(new Date());
 	}
 
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
+	public String generateToken(UserDetails userDetails, Entity user) {
+		Map<String, Object> claims = user.toMap();
+		claims.remove("files");
+		claims.put("type", user.getType());
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 

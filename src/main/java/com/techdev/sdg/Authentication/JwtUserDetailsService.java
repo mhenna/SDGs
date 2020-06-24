@@ -1,5 +1,6 @@
 package com.techdev.sdg.Authentication;
 
+import com.techdev.sdg.Entity.Entity;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.PrivateSector.PrivateSectorRepository;
 import com.techdev.sdg.NGO.NGO;
@@ -42,4 +43,19 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 	}
 
+	public Entity loadUserObject(String username) throws UsernameNotFoundException {
+		Entity entity;
+		try {
+			entity = psUser.findByName(username);
+			if (entity == null) {
+				throw new UsernameNotFoundException("User not found with username: " + username);
+			}
+		} catch (Exception e) {
+			entity = ngoUser.findByName(username);
+			if (entity == null) {
+				throw new UsernameNotFoundException("User not found with username: " + username);
+			}
+		}
+		return entity;
+	}
 }

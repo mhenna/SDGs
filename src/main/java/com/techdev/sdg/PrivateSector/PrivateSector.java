@@ -1,7 +1,5 @@
 package com.techdev.sdg.PrivateSector;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
 import com.techdev.sdg.Project.Project;
@@ -19,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PrivateSector")
-public class PrivateSector implements Serializable {
+public class PrivateSector extends com.techdev.sdg.Entity.Entity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String PROJECT = "project";
@@ -184,6 +182,8 @@ public class PrivateSector implements Serializable {
     }
 
     public Set<IntendedSDG> getIntendedSDGs() { return intendedSDGs; }
+
+    public Class getType() { return this.getClass(); }
 
     @Override
     public String toString() {

@@ -1,6 +1,8 @@
 package com.techdev.sdg.Authentication;
 
 import com.techdev.sdg.Authentication.config.JwtTokenUtil;
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.PrivateSector.PrivateSector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,12 +27,12 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = Router.AUTHENTICATE, method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		final Entity user = userDetailsService.loadUserObject(authenticationRequest.getUsername());
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
+		final String token = jwtTokenUtil.generateToken(userDetails, user);
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
