@@ -20,7 +20,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ngo")
-public class NGO implements Serializable {
+public class NGO extends com.techdev.sdg.Entity.Entity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String MAINCONTACT = "contact";
@@ -171,6 +171,11 @@ public class NGO implements Serializable {
         this.directionToImpact = directionToImpact;
     }
 
+    @Override
+    public void setIntendedSDGs(Set<IntendedSDG> intendedSDGs) {
+        this.intendedSDGs = intendedSDGs;
+    }
+
     public void setFiles(Set<File> files) {
         this.files = files;
     }
@@ -224,6 +229,8 @@ public class NGO implements Serializable {
     }
 
     public Set<File> getFiles() { return files; }
+
+    public Class getType() { return this.getClass(); }
 
     @Override
     public String toString() {
