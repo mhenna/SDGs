@@ -257,7 +257,7 @@ public class NGO extends com.techdev.sdg.Entity.Entity implements Serializable {
         ngo.put("mainContact", mainContact);
         ngo.put("vision", vision);
         ngo.put("isApproved", isApproved);
-        ngo.put("intededSDGs", intendedSDGs);
+        ngo.put("intendedSDGs", intendedSDGs);
         ngo.put("projects", projects);
         ngo.put("workLocations", workLocations);
         ngo.put("resources", resources);

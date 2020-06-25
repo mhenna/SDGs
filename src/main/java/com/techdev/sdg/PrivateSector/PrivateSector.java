@@ -205,7 +205,7 @@ public class PrivateSector extends com.techdev.sdg.Entity.Entity implements Seri
         ps.put("name", name);
         ps.put("email", email);
         ps.put("isApproved", isApproved);
-        ps.put("intededSDGs", intendedSDGs);
+        ps.put("intendedSDGs", intendedSDGs);
         ps.put("projects", projects);
         ps.put("workLocations", workLocations);
         ps.put("resources", resources);
