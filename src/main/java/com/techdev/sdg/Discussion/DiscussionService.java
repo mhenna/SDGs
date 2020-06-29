@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Repeatable;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DiscussionService {
@@ -46,6 +44,12 @@ public class DiscussionService {
             repository.save(discussion);
             return discussion;
         }
+    }
+
+    public List<Discussion> getDiscussion(Long projectId) throws Exception{
+        List<Discussion> discussions = repository.findByProjectId(projectId);
+        return discussions;
+
     }
 
 }
