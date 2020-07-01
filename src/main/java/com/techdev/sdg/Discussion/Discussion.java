@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 
+
 @Entity
 @Table(name = "discussion")
 public class Discussion implements Serializable {
@@ -30,6 +31,7 @@ public class Discussion implements Serializable {
     @Column(name = "answer", nullable = true, unique = false)
     private String answer;
 
+
     @ManyToOne(
             cascade = {
                     CascadeType.PERSIST,
@@ -44,11 +46,13 @@ public class Discussion implements Serializable {
     public Discussion() {
     }
 
+
     public Discussion(String question) {
         setQuestion(question);
     }
 
     public Long getId() { return this.id; }
+
 
     public void setQuestion(String question) {
         this.question = question;
