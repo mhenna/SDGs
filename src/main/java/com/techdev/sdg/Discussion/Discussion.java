@@ -41,8 +41,10 @@ public class Discussion implements Serializable {
     public Discussion() {
     }
 
+
     public Discussion(String question) {
         setQuestion(question);
+
     }
 
     public void setQuestion(String question) {
