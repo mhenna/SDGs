@@ -49,8 +49,10 @@ public class Discussion implements Serializable {
 
     public Discussion(String question) {
         setQuestion(question);
-
     }
+
+    public Long getId() { return this.id; }
+
 
     public void setQuestion(String question) {
         this.question = question;
@@ -91,7 +93,6 @@ public class Discussion implements Serializable {
         discussion.put("id", id);
         discussion.put("question", question);
         discussion.put("answer", answer);
-        discussion.put("project", project);
 
         return discussion;
     }
