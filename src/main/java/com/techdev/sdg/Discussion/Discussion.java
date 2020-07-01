@@ -5,8 +5,12 @@ import com.techdev.sdg.Project.Project;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+
 
 @Entity
 @Table(name = "discussion")
@@ -27,7 +31,8 @@ public class Discussion implements Serializable {
     @Column(name = "answer", nullable = true, unique = false)
     private String answer;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+
+    @ManyToOne(
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
@@ -73,12 +78,22 @@ public class Discussion implements Serializable {
 
     @Override
     public String toString() {
-        return "PrivateSector: {\n" +
+        return "Discussion: {\n" +
                 "\tid: " + id + ",\n" +
                 "\tquestion: " + question + ",\n" +
                 "\tanswer: " + answer + ",\n" +
                 "\tproject: " + project + ",\n" +
                 '}';
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> discussion = new HashMap<>();
+        discussion.put("id", id);
+        discussion.put("question", question);
+        discussion.put("answer", answer);
+        discussion.put("project", project);
+
+        return discussion;
     }
 
 }

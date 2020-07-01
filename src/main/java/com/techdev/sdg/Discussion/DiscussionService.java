@@ -1,7 +1,7 @@
 package com.techdev.sdg.Discussion;
 
 
-import com.techdev.sdg.PrivateSector.PrivateSector;
+
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Utils.Utils;
@@ -36,6 +36,17 @@ public class DiscussionService {
             return discussion;
         }
     }
-
+    public Discussion saveAnswer(Map<String, Object> body) throws Exception{
+        Optional<Discussion> discussionTemp = repository.findById(Long.parseLong(Objects.toString(body.get(Discussion.ID))));
+        if(discussionTemp.isEmpty()){
+            throw new Exception ("Question with specified id does not exist");
+        }
+        else {
+            Discussion discussion = discussionTemp.get();
+            discussion.setAnswer(Objects.toString(body.get(Discussion.ANSWER)));
+            repository.save(discussion);
+            return discussion;
+        }
+    }
 
 }

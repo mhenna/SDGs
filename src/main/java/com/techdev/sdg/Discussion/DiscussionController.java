@@ -17,7 +17,7 @@ public class DiscussionController  {
     private DiscussionService service;
 
     @RequestMapping(value = Router.ADDDISCUSSION, method = RequestMethod.POST)
-    public ResponseEntity<Object> register(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Object> addQuestion(@RequestBody Map<String, Object> body) {
         ResponseEntity<Object> res;
         try {
             Discussion discussion = service.save(body);
@@ -29,4 +29,17 @@ public class DiscussionController  {
         return res;
     }
 
+    @RequestMapping(value = Router.ADDANSWER, method = RequestMethod.POST)
+    public ResponseEntity<Object> addAnswer(@RequestBody Map<String, Object> body) {
+        ResponseEntity<Object> res;
+        try {
+            Discussion discussion = service.saveAnswer(body);
+            res = new ResponseEntity<Object>(discussion.toMap(),HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            res = new ResponseEntity<Object>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
 }
