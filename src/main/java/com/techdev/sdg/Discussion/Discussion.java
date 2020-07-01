@@ -41,9 +41,9 @@ public class Discussion implements Serializable {
     public Discussion() {
     }
 
-    public Discussion(String question, Project project) {
+
+    public Discussion(String question) {
         setQuestion(question);
-        setProject(project);
 
     }
 
@@ -58,6 +58,7 @@ public class Discussion implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+
     public String getQuestion() {
         return question;
     }
