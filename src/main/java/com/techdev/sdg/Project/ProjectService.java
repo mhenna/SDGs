@@ -66,4 +66,12 @@ public class ProjectService {
         repository.save(p);
         return p;
     }
+
+    public List<Project> findAll() throws Exception {
+        List<Project> projects = repository.findAll();
+        if (projects.isEmpty())
+            throw new Exception ("cannot get work locations");
+        else
+            return projects;
+    }
 }
