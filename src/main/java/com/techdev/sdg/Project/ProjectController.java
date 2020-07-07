@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,6 +35,18 @@ public class ProjectController {
             res = new ResponseEntity<Object>(p, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<Object>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
+    @RequestMapping(value = Router.GETPROJECTS, method = RequestMethod.GET)
+    public ResponseEntity<Object> getProjects() {
+        ResponseEntity<Object> res = null;
+        try {
+            List<Project> projects = service.findAll();
+            res = new ResponseEntity<>(projects, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return res;
