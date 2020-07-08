@@ -178,6 +178,10 @@ public class Project implements Serializable {
         this.ngos = NGOs;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
