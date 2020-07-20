@@ -1,5 +1,6 @@
 package com.techdev.sdg.Discussion;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.Project.Project;
 
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 
 
 @Entity
@@ -31,28 +31,19 @@ public class Discussion implements Serializable {
     @Column(name = "answer", nullable = true, unique = false)
     private String answer;
 
-
-    @ManyToOne(
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "discussion_project",
-            joinColumns = {@JoinColumn(name = "discussion_id")},
-            inverseJoinColumns = {@JoinColumn(name = "project_id")})
-    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "project_id", nullable = false)
+    @JsonBackReference
     private Project project;
 
     public Discussion() {
     }
-
 
     public Discussion(String question) {
         setQuestion(question);
     }
 
     public Long getId() { return this.id; }
-
 
     public void setQuestion(String question) {
         this.question = question;
@@ -74,9 +65,6 @@ public class Discussion implements Serializable {
         return answer;
     }
 
-    public Project getProject() {
-        return project;
-    }
 
     @Override
     public String toString() {
@@ -84,7 +72,6 @@ public class Discussion implements Serializable {
                 "\tid: " + id + ",\n" +
                 "\tquestion: " + question + ",\n" +
                 "\tanswer: " + answer + ",\n" +
-                "\tproject: " + project + ",\n" +
                 '}';
     }
 

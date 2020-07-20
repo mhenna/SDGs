@@ -2,6 +2,7 @@ package com.techdev.sdg.Project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.techdev.sdg.Discussion.Discussion;
 import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
@@ -9,7 +10,6 @@ import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Resource.Resource;
 
 import org.hibernate.jdbc.Work;
-//import com.techdev.sdg.NGO.NGO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,6 +52,12 @@ public class Project implements Serializable {
     @OneToMany(mappedBy = "parentProject")
     @JsonManagedReference
     private Set<Project> subProjects = new HashSet<>();
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Discussion> discussions = new HashSet<>();
+
 
     @ManyToOne
     @JsonBackReference
@@ -140,6 +146,10 @@ public class Project implements Serializable {
         this.subProjects = subProjects;
     }
 
+    public void setDiscussions(Set<Discussion> discussions) {
+        this.discussions = discussions;
+    }
+
     public void setParentProject(Project parentProject) {
         this.parentProject = parentProject;
     }
@@ -168,6 +178,10 @@ public class Project implements Serializable {
         this.ngos = NGOs;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -186,6 +200,10 @@ public class Project implements Serializable {
 
     public Set<Project> getSubProjects() {
         return subProjects;
+    }
+
+    public Set<Discussion> getDiscussions() {
+        return discussions;
     }
 
     public Project getParentProject() {

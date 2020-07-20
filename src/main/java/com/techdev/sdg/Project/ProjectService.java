@@ -67,6 +67,13 @@ public class ProjectService {
         return p;
     }
 
+    public Project get(Long id) throws Exception {
+        Project project = repository.findById(id).get();
+        if (Objects.isNull(project))
+            throw new Exception ("project with specified id does not exist");
+        else
+            return project;
+    }
     public List<Project> findAll() throws Exception {
         List<Project> projects = repository.findAll();
         if (projects.isEmpty())
