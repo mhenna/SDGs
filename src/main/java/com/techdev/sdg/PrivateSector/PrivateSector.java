@@ -2,6 +2,7 @@ package com.techdev.sdg.PrivateSector;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
+import com.techdev.sdg.Entity.userEntity;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.WorkLocation.WorkLocation;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PrivateSector")
-public class PrivateSector extends com.techdev.sdg.Entity.Entity implements Serializable {
+public class PrivateSector extends userEntity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String PROJECT = "project";
@@ -183,7 +184,7 @@ public class PrivateSector extends com.techdev.sdg.Entity.Entity implements Seri
 
     public Set<IntendedSDG> getIntendedSDGs() { return intendedSDGs; }
 
-    public Class getType() { return this.getClass(); }
+    public String getType() { return this.getClass().getSimpleName(); }
 
     @Override
     public String toString() {
@@ -210,7 +211,7 @@ public class PrivateSector extends com.techdev.sdg.Entity.Entity implements Seri
         ps.put("workLocations", workLocations);
         ps.put("resources", resources);
         ps.put("directionsToImpact", directionToImpact);
-
+        ps.put("type",getType());
         return ps;
     }
 }

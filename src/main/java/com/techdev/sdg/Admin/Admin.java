@@ -1,13 +1,17 @@
 package com.techdev.sdg.Admin;
 
 //import com.techdev.sdg.NGO.NGOModel;
-import com.techdev.sdg.PrivateSector.PrivateSector;
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.superEntity;
 
 import javax.persistence.*;
-@Entity
+import java.util.HashMap;
+import java.util.Map;
+
+@javax.persistence.Entity
 @Table(name = "Admin")
 
-public class Admin {
+public class Admin extends superEntity {
     final public static String ID = "id";
     final public static String EMAIL = "email";
     final public static String PASSWORD = "password";
@@ -35,6 +39,8 @@ public class Admin {
         setPassword(password);
     }
 
+    public void setName(String name) { }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -49,6 +55,8 @@ public class Admin {
 
     public Long getId() { return id;}
 
+    public String getName() { return  null;}
+
     public String getEmail() {
         return email;
     }
@@ -57,7 +65,8 @@ public class Admin {
         return password;
     }
 
-//    public NGOModel getNGO() { return ngo;}
+//    public NGOModel getNGO() { return ngo;
+    public String getType() { return this.getClass().getSimpleName(); }
 
     @Override
     public String toString() {
@@ -67,4 +76,12 @@ public class Admin {
 //                "\tngo: " + ngo + ",\n" +
                 '}';
     }
+    public Map<String, Object> toMap() {
+        Map<String, Object> admin = new HashMap<>();
+        admin.put("id", id);
+        admin.put("email", email);
+        admin.put("type",getType());
+        return admin;
+    }
+
 }
