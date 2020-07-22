@@ -2,7 +2,7 @@ package com.techdev.sdg.NGO;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
-import com.techdev.sdg.Entity.userEntity;
+import com.techdev.sdg.Entity.UserEntity;
 import com.techdev.sdg.File.File;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Resource.Resource;
@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ngo")
-public class NGO extends userEntity implements Serializable {
+public class NGO extends UserEntity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String MAINCONTACT = "contact";

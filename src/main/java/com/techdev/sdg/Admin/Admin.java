@@ -1,8 +1,7 @@
 package com.techdev.sdg.Admin;
 
 //import com.techdev.sdg.NGO.NGOModel;
-import com.techdev.sdg.Entity.Entity;
-import com.techdev.sdg.Entity.superEntity;
+import com.techdev.sdg.Entity.SuperEntity;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Map;
 @javax.persistence.Entity
 @Table(name = "Admin")
 
-public class Admin extends superEntity {
+public class Admin extends SuperEntity {
     final public static String ID = "id";
     final public static String EMAIL = "email";
     final public static String PASSWORD = "password";

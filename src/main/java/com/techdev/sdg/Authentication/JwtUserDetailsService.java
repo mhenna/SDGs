@@ -1,7 +1,7 @@
 package com.techdev.sdg.Authentication;
 
 import com.techdev.sdg.Entity.Entity;
-import com.techdev.sdg.Entity.superEntity;
+import com.techdev.sdg.Entity.SuperEntity;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.PrivateSector.PrivateSectorRepository;
 import com.techdev.sdg.NGO.NGO;
@@ -58,10 +58,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 	}
 
-	public Map loadUserObject(String username) throws UsernameNotFoundException {
+	public Map<String,Object> loadUserObject(String username) throws UsernameNotFoundException {
 
 		Entity entity;
-		Map entityInfo;
+		Map<String,Object> entityInfo;
 
 		try {
 			entity= psUser.findByName(username);
@@ -84,7 +84,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 			  }catch( Exception e1)
 			    {
-					   superEntity sEntity = admin.findByEmail(username);
+					   SuperEntity sEntity = admin.findByEmail(username);
 
 					if (sEntity == null) {
 						throw new UsernameNotFoundException("User not found with username: " + username);

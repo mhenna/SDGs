@@ -2,7 +2,7 @@ package com.techdev.sdg.PrivateSector;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
-import com.techdev.sdg.Entity.userEntity;
+import com.techdev.sdg.Entity.UserEntity;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.WorkLocation.WorkLocation;
@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PrivateSector")
-public class PrivateSector extends userEntity implements Serializable {
+public class PrivateSector extends UserEntity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String PROJECT = "project";

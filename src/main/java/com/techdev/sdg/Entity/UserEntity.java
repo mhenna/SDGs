@@ -9,7 +9,7 @@ import com.techdev.sdg.intendedSDG.IntendedSDG;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class userEntity extends Entity {
+public abstract class UserEntity extends Entity {
 
     public abstract void setIsApproved(Boolean isApproved);
 
