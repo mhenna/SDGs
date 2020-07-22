@@ -11,9 +11,7 @@ import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -36,6 +34,7 @@ public class ProjectService {
     public Project save(Map<String, Object> body) {
         Project p = new Project(
                 Objects.toString(body.get(Project.NAME), null),
+                Objects.toString(body.get(Project.OWNER), null),
                 Objects.toString(body.get(Project.AIM), null),
                 Long.parseLong(Objects.toString(body.get(Project.DURATION), null)),
                 Long.parseLong(Objects.toString(body.get(Project.PEOPLETARGETED), null))

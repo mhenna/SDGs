@@ -31,6 +31,7 @@ public class Project implements Serializable {
     final public static String INTENDEDSDG = "intendedSDG";
     final public static String PRIVATESECTOR = "privateSector";
     final public static String NGOS = "ngo";
+    final public static String OWNER = "owner";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +40,9 @@ public class Project implements Serializable {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @Column(name = "owner", nullable = false, unique = true)
+    private String owner;
 
     @Column(name = "aim", nullable = false)
     private String aim;
@@ -119,8 +123,9 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(String name, String aim, Long duration, Long peopleTargeted) {
+    public Project(String name, String owner, String aim, Long duration, Long peopleTargeted) {
         setName(name);
+        setOwner(owner);
         setAim(aim);
         setDuration(duration);
         setPeopleTargeted(peopleTargeted);
@@ -128,6 +133,10 @@ public class Project implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public void setAim(String aim) {
@@ -184,6 +193,10 @@ public class Project implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public String getAim() {
