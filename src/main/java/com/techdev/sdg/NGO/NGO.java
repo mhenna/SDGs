@@ -1,9 +1,8 @@
 package com.techdev.sdg.NGO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
+import com.techdev.sdg.Entity.UserEntity;
 import com.techdev.sdg.File.File;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Resource.Resource;
@@ -20,7 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ngo")
-public class NGO extends com.techdev.sdg.Entity.Entity implements Serializable {
+public class NGO extends UserEntity implements Serializable {
     final public static String ID = "id";
     final public static String NAME = "name";
     final public static String MAINCONTACT = "contact";
@@ -230,7 +229,7 @@ public class NGO extends com.techdev.sdg.Entity.Entity implements Serializable {
 
     public Set<File> getFiles() { return files; }
 
-    public Class getType() { return this.getClass(); }
+    public String getType() { return this.getClass().getSimpleName(); }
 
     @Override
     public String toString() {
@@ -263,6 +262,7 @@ public class NGO extends com.techdev.sdg.Entity.Entity implements Serializable {
         ngo.put("resources", resources);
         ngo.put("directionsToImpact", directionToImpact);
         ngo.put("files", files);
+        ngo.put("type",getType());
 
         return ngo;
     }
