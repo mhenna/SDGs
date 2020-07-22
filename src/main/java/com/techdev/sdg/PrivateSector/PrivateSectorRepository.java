@@ -9,9 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface PrivateSectorRepository extends JpaRepository<PrivateSector, Long> {
     PrivateSector findByName (String name);
+
+    List<PrivateSector> findByIsApproved(Boolean isApproved);
 
     @Transactional
     @Modifying(clearAutomatically=true, flushAutomatically = true)
