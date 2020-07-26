@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,9 @@ public class AdminController {
         ResponseEntity<Object> res = null;
         try {
             service.approveSignupRequest(id, type);
-            res = new ResponseEntity<>("Sign-up request has been approved", HttpStatus.OK);
+            Map<String, Object> r = new HashMap<>();
+            r.put("message", "Sign-up request has been approved");
+            res = new ResponseEntity<>(r, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
