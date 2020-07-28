@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -87,5 +88,14 @@ public class NGOService {
             throw new Exception ("NGO with specified id does not exist");
         else
             return ngo;
+    }
+
+    public List<Map<String, Object>> findAll() {
+        List<NGO> ngo = repository.findAll();
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (NGO n : ngo) {
+            res.add(n.toMap());
+        }
+        return res;
     }
 }

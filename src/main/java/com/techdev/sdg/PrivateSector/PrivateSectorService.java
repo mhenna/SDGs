@@ -48,7 +48,8 @@ public class PrivateSectorService {
         PrivateSector ps = new PrivateSector(
                 Objects.toString(body.get(PrivateSector.NAME), null),
                 Objects.toString(body.get(PrivateSector.EMAIL), null),
-                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null))
+                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null)),
+                Objects.toString(body.get(PrivateSector.MAINCONTACT), null)
         );
 
 
@@ -79,5 +80,14 @@ public class PrivateSectorService {
             throw new Exception ("NGO with specified id does not exist");
         else
             return ps;
+    }
+
+    public List<Map<String, Object>> findAll() {
+        List<PrivateSector> ps = repository.findAll();
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (PrivateSector n : ps) {
+            res.add(n.toMap());
+        }
+        return res;
     }
 }

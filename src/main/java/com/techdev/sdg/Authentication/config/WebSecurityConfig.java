@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // csrf tokens are off for now
+        httpSecurity.cors();
         httpSecurity.csrf().disable().authorizeRequests()
                 .antMatchers("/authenticate", "/privateSector/register",
                         "/ngo/register", "/directions", "/resources", "/intendedSDGs", "/worklocations")
