@@ -48,7 +48,8 @@ public class PrivateSectorService {
         PrivateSector ps = new PrivateSector(
                 Objects.toString(body.get(PrivateSector.NAME), null),
                 Objects.toString(body.get(PrivateSector.EMAIL), null),
-                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null))
+                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null)),
+                Objects.toString(body.get(PrivateSector.MAINCONTACT), null)
         );
 
 

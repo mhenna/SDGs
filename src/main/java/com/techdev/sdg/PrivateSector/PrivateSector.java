@@ -23,6 +23,7 @@ public class PrivateSector extends UserEntity implements Serializable {
     final public static String NAME = "name";
     final public static String PROJECT = "project";
     final public static String EMAIL = "email";
+    final public static String MAINCONTACT = "contact";
     final public static String PASSWORD = "password";
     final public static String ISAPPROVED = "isApproved";
     final public static String WORKLOCATION = "workLocation";
@@ -45,6 +46,10 @@ public class PrivateSector extends UserEntity implements Serializable {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "mainContact", nullable = false, unique = true)
+    @Email
+    private String mainContact;
 
     @Column(name = "isApproved", nullable = false)
     private Boolean isApproved;
@@ -107,11 +112,12 @@ public class PrivateSector extends UserEntity implements Serializable {
     public PrivateSector() {
     }
 
-    public PrivateSector(String name, String email, String password) {
+    public PrivateSector(String name, String email, String password, String mainContact) {
         setName(name);
         setEmail(email);
         setPassword(password);
         setIsApproved(false);
+        setMaincontact(mainContact);
     }
 
     public void setName(String name) {
@@ -124,6 +130,10 @@ public class PrivateSector extends UserEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setMaincontact(String mainContact) {
+        this.mainContact = mainContact;
     }
 
     public void setIsApproved(Boolean isApproved) {
@@ -166,6 +176,10 @@ public class PrivateSector extends UserEntity implements Serializable {
         return isApproved;
     }
 
+    public String getMainContact() {
+        return mainContact;
+    }
+
     public Set<Project> getProjects() {
         return projects;
     }
@@ -193,6 +207,7 @@ public class PrivateSector extends UserEntity implements Serializable {
                 "\tname: " + name + ",\n" +
                 "\temail: " + email + ",\n" +
                 "\tisApproved: " + isApproved + ",\n" +
+                "\tmainContact: " + mainContact + ",\n" +
                 "\tprojects: " + projects + ",\n" +
                 "\tworkLocation: " + workLocations + ",\n" +
                 "\tresource: " + resources + ",\n" +
@@ -206,6 +221,7 @@ public class PrivateSector extends UserEntity implements Serializable {
         ps.put("name", name);
         ps.put("email", email);
         ps.put("isApproved", isApproved);
+        ps.put("mainContact", mainContact);
         ps.put("intendedSDGs", intendedSDGs);
         ps.put("projects", projects);
         ps.put("workLocations", workLocations);
