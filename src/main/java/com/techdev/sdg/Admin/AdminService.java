@@ -7,6 +7,7 @@ import com.techdev.sdg.NGO.NGORepository;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.PrivateSector.PrivateSectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,13 @@ public class AdminService {
     private PrivateSectorRepository privateSectorRepository;
 
     @Autowired
+    private AdminRepository repository;
+
+    @Autowired
     private NGORepository ngoRepository;
+
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
 
     public List<Map<String, Object>> getSignupRequests() {
         List<PrivateSector> privateSectors = privateSectorRepository.findByIsApproved(false);
@@ -50,5 +57,21 @@ public class AdminService {
             ngoRepository.save(entity);
         } else
             throw new Exception("Invalid entity type passed");
+    }
+    
+    public Admin saveAdmin(Map<String, Object> body) {
+        Admin admin = new Admin(Objects.toString(body.get(Admin.NAME), null),
+                Objects.toString(body.get(Admin.EMAIL), null),
+                bcryptEncoder.encode(Objects.toString(body.get(Admin.PASSWORD), null))
+                );
+        return repository.save(admin);
+    }
+    public List<Map<String, Object>> getAdmins() {
+        List<Admin> admin = repository.findAll();
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (Admin n : admin) {
+            res.add(n.toMap());
+        }
+        return res;
     }
 }
