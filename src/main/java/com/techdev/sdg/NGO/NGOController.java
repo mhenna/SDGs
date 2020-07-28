@@ -80,4 +80,17 @@ public class NGOController {
         }
         return res;
     }
+
+    @RequestMapping(value = Router.RETRIEVEALL, method = RequestMethod.GET)
+    public ResponseEntity<Object> getAll() {
+        ResponseEntity<Object> res = null;
+        try {
+            List<Map<String, Object>> ngo = service.findAll();
+            res = new ResponseEntity<>(ngo, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
 }

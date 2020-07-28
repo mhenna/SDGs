@@ -80,4 +80,13 @@ public class PrivateSectorService {
         else
             return ps;
     }
+
+    public List<Map<String, Object>> findAll() {
+        List<PrivateSector> ps = repository.findAll();
+        List<Map<String, Object>> res = new ArrayList<>();
+        for (PrivateSector n : ps) {
+            res.add(n.toMap());
+        }
+        return res;
+    }
 }
