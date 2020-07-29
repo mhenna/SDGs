@@ -49,7 +49,9 @@ public class AdminController {
         ResponseEntity<Object> res;
         try {
             Admin admin = service.saveAdmin(body);
-            res = new ResponseEntity<>("Admin saved", HttpStatus.OK);
+            Map<String, Object> r = new HashMap<>();
+            r.put("message", "Admin Saved");
+            res = new ResponseEntity<>(r, HttpStatus.OK);
         }
         catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
