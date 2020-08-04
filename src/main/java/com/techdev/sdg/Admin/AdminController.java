@@ -4,10 +4,7 @@ import com.techdev.sdg.Entity.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +37,35 @@ public class AdminController {
             Map<String, Object> r = new HashMap<>();
             r.put("message", "Sign-up request has been approved");
             res = new ResponseEntity<>(r, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = Router.ADDADMIN, method = RequestMethod.POST)
+    public ResponseEntity<Object> addAdmin(@RequestBody Map<String, Object> body) {
+        ResponseEntity<Object> res;
+        try {
+            Admin admin = service.saveAdmin(body);
+            Map<String, Object> r = new HashMap<>();
+            r.put("message", "Admin Saved");
+            res = new ResponseEntity<>(r, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = Router.GETADMINS, method = RequestMethod.GET)
+    public ResponseEntity<Object> getAdmins() {
+        ResponseEntity<Object> res = null;
+        try {
+            List<Map<String, Object>> entities = service.getAdmins();
+            res = new ResponseEntity<>(entities, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

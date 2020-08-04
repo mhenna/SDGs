@@ -72,7 +72,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
                         authorities);
             } catch (Exception e1) {
-                Admin user = admin.findByEmail(username);
+                Admin user = admin.findByName(username);
                 if (user == null) {
                     throw new UsernameNotFoundException("User not found with username: " + username);
                 }
@@ -87,7 +87,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
                 authorities.addAll(a);
 
-                return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
                         authorities);
             }
         }
@@ -118,7 +118,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                 return entityInfo;
 
             } catch (Exception e1) {
-                SuperEntity sEntity = admin.findByEmail(username);
+                SuperEntity sEntity = admin.findByName(username);
 
                 if (sEntity == null) {
                     throw new UsernameNotFoundException("User not found with username: " + username);
