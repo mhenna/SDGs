@@ -74,4 +74,11 @@ public class AdminService {
         }
         return res;
     }
+    public void deleteAdmin(Long id) throws Exception {
+        try {
+            repository.deleteById(id);
+        }catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
 }

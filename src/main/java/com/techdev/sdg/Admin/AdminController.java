@@ -72,4 +72,18 @@ public class AdminController {
         }
         return res;
     }
+    @RequestMapping(value = Router.DELETEADMIN, method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteAdmin(@PathVariable Long id) {
+        ResponseEntity<Object> res = null;
+        try {
+            service.deleteAdmin(id);
+            Map<String, Object> r = new HashMap<>();
+            r.put("message", "Admin Deleted");
+            res = new ResponseEntity<>(r, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
 }
