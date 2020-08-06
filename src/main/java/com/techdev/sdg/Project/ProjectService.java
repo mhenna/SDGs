@@ -38,7 +38,6 @@ public class ProjectService {
                 Objects.toString(body.get(Project.NAME), null),
                 Objects.toString(body.get(Project.OWNER), null),
                 Objects.toString(body.get(Project.AIM), null),
-               // Objects.toString(body.get(Project.VIEWER),null),
                 Long.parseLong(Objects.toString(body.get(Project.DURATION), null)),
                 Long.parseLong(Objects.toString(body.get(Project.PEOPLETARGETED), null))
 
@@ -89,16 +88,12 @@ public class ProjectService {
             return projects;
     }
 
-    public Project findByViewer(String viewer, long projectID) throws Exception {
-        Project project = repository.findProjectById(projectID);
-        if (Objects.isNull(project))
-            throw new Exception ("This project doesn't exit");
-        else {
-            List<String> viewers= project.getViewers();
+    public Project findByViewer(String viewer, long projectId) throws Exception {
+        Project project = get(projectId);
+        List<String> viewers= project.getViewers();
             if (viewers.contains(viewer))
                 return project;
-        }
-        throw new Exception ("This project is allowed to be seen by the requesting entity");
+        throw new Exception ("Not allowed to view this project");
     }
     public String currentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
