@@ -2,9 +2,6 @@ package com.techdev.sdg.WorkLocation;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.techdev.sdg.NGO.NGO;
-import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Project.Project;
 
 import javax.persistence.*;
@@ -37,17 +34,8 @@ public class WorkLocation implements Serializable {
             mappedBy = "workLocations")
     @JsonBackReference
     private Set<Project> projects;
-    @Column(name = "privateSector")
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "workLocations")
-    @JsonBackReference
-    private Set<PrivateSector> privateSectors = new HashSet<>();
 
-    @Column(name = "ngo")
+    @Column(name = "entity")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -55,7 +43,7 @@ public class WorkLocation implements Serializable {
             },
             mappedBy = "workLocations")
     @JsonBackReference
-    private Set<NGO> ngos = new HashSet<>();
+    private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
     public WorkLocation() {
     }
@@ -68,40 +56,32 @@ public class WorkLocation implements Serializable {
         this.area = area;
     }
 
-    public void setID(Long id) {this.id = id;}
+    public void setID(Long id) {
+        this.id = id;
+    }
 
-    public Long getId(){return id;}
+    public Long getId() {
+        return id;
+    }
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-        this.privateSectors = privateSectors;
-    }
-
-    public void setNGOs(Set<NGO> NGOs) {
-        this.ngos = NGOs;
+    public void setEntities(Set<com.techdev.sdg.Entity.Entity> entities) {
+        this.entities = entities;
     }
 
     public String getArea() {
         return area;
     }
 
-//    public Set<Project> getProjects() {
-//        return projects;
-//    }
-
-    public Set<PrivateSector> getPrivateSectors() {
-        return privateSectors;
+    public Set<com.techdev.sdg.Entity.Entity> getEntities() {
+        return entities;
     }
 
-    public Set<NGO> getNGOs() {
-        return ngos;
-    }
-
-    public void addPrivateSector(PrivateSector ps) {
-        getPrivateSectors().add(ps);
+    public void addEntity(com.techdev.sdg.Entity.Entity entity) {
+        getEntities().add(entity);
     }
 
     @Override

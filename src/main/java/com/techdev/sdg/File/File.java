@@ -1,7 +1,6 @@
 package com.techdev.sdg.File;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.techdev.sdg.NGO.NGO;
 
 import javax.persistence.*;
 
@@ -26,7 +25,7 @@ public class File {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ngo_id", nullable = false)
     @JsonBackReference
-    private NGO ngo;
+    private com.techdev.sdg.Entity.Entity ngo;
 
     public File() {
 
@@ -38,7 +37,7 @@ public class File {
         setData(data);
     }
 
-    public void setNgo(NGO ngo) {
+    public void setNgo(com.techdev.sdg.Entity.Entity ngo) {
         this.ngo = ngo;
     }
 

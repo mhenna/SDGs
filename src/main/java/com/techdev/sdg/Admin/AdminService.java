@@ -1,11 +1,7 @@
 package com.techdev.sdg.Admin;
 
 import com.techdev.sdg.Entity.Entity;
-import com.techdev.sdg.Entity.UserEntity;
-import com.techdev.sdg.NGO.NGO;
-import com.techdev.sdg.NGO.NGORepository;
-import com.techdev.sdg.PrivateSector.PrivateSector;
-import com.techdev.sdg.PrivateSector.PrivateSectorRepository;
+import com.techdev.sdg.Entity.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,49 +10,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class AdminService {
     @Autowired
-    private PrivateSectorRepository privateSectorRepository;
+    private EntityRepository entityRepository;
 
     @Autowired
     private AdminRepository repository;
 
     @Autowired
-    private NGORepository ngoRepository;
-
-    @Autowired
     private PasswordEncoder bcryptEncoder;
 
     public List<Map<String, Object>> getSignupRequests() {
-        List<PrivateSector> privateSectors = privateSectorRepository.findByIsApproved(false);
-        List<NGO> ngos = ngoRepository.findByIsApproved(false);
+        List<Entity> entities = entityRepository.findByIsApproved(false);
 
-        List<Entity> e = Stream.concat(privateSectors.stream(), ngos.stream())
-                .collect(Collectors.toList());
+        List<Map<String, Object>> entityObjects = new ArrayList<>();
 
-        List<Map<String, Object>> entities = new ArrayList<>();
-
-        for (Entity entity : e)
-            entities.add(entity.toMap());
-        return entities;
+        for (Entity entity : entities)
+            entityObjects.add(entity.toMap());
+        return entityObjects;
     }
 
-    public void approveSignupRequest(Long id, String type) throws Exception {
-        if (type.equals("PrivateSector")) {
-            PrivateSector entity = privateSectorRepository.findById(id).get();
-            entity.setIsApproved(true);
-            privateSectorRepository.save(entity);
-        }
-        else if (type.equals("NGO")) {
-            NGO entity = ngoRepository.findById(id).get();
-            entity.setIsApproved(true);
-            ngoRepository.save(entity);
-        } else
-            throw new Exception("Invalid entity type passed");
+    public void approveSignupRequest(Long id) throws Exception {
+        Entity entity = entityRepository.findById(id).get();
+        entity.setIsApproved(true);
+        entityRepository.save(entity);
     }
     
     public Admin saveAdmin(Map<String, Object> body) {
@@ -66,6 +45,7 @@ public class AdminService {
                 );
         return repository.save(admin);
     }
+
     public List<Map<String, Object>> getAdmins() {
         List<Admin> admin = repository.findAll();
         List<Map<String, Object>> res = new ArrayList<>();
@@ -74,6 +54,7 @@ public class AdminService {
         }
         return res;
     }
+
     public void deleteAdmin(Long id) throws Exception {
         try {
             repository.deleteById(id);
