@@ -4,17 +4,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.Discussion.Discussion;
 import com.techdev.sdg.NGO.NGO;
+import com.techdev.sdg.Utils.StringListConverter;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
 import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Resource.Resource;
 
-import org.hibernate.jdbc.Work;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "Project")
@@ -32,6 +31,7 @@ public class Project implements Serializable {
     final public static String PRIVATESECTOR = "privateSector";
     final public static String NGOS = "ngo";
     final public static String OWNER = "owner";
+    final public static String VIEWER = "viewer";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +46,11 @@ public class Project implements Serializable {
 
     @Column(name = "aim", nullable = false)
     private String aim;
+
+    //a temp workaround for saving viewers without refactoring
+    @Column(name = "viewer",nullable = false)
+    @Convert(converter = StringListConverter.class)
+    private List<String> viewer= new ArrayList<String>();;
 
     @Column(name = "duration", nullable = false)
     private Long duration;
@@ -123,7 +128,7 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(String name, String owner, String aim, Long duration, Long peopleTargeted) {
+    public Project(String name, String owner, String aim,  Long duration, Long peopleTargeted) {
         setName(name);
         setOwner(owner);
         setAim(aim);
@@ -143,6 +148,11 @@ public class Project implements Serializable {
         this.aim = aim;
     }
 
+
+    public void setViewers(List<String> viewers) {
+
+        this.viewer = viewers;
+    }
     public void setDuration(Long duration) {
         this.duration = duration;
     }
@@ -199,6 +209,11 @@ public class Project implements Serializable {
         return owner;
     }
 
+
+    public List<String> getViewers() {
+       return viewer;
+    }
+
     public String getAim() {
         return aim;
     }
@@ -249,6 +264,7 @@ public class Project implements Serializable {
                 "\t\tid: " + id + ",\n" +
                 "\t\tname: " + name + ",\n" +
                 "\t\taim: " + aim + ",\n" +
+                "\t\tviewers: " + viewer + ",\n"+
                 "\t\tduration: " + duration + ",\n" +
                 "\t\tpeople targeted: " + peopleTargeted + ",\n" +
                 "\t\tworkLocation: " + workLocations + ",\n" +

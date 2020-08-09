@@ -25,4 +25,14 @@ public class Utils {
             return null;
         }
     }
+
+    public List<String> getStrListFromReqBodyObjects(Map<String, Object> body, String field) {
+        try {
+            List<String> viewersList = JSONValue.parse(body.get(field).toString(), ArrayList.class);
+            List<String> viewers = viewersList.stream().map(String::toString).collect(Collectors.toList());
+            return viewers;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

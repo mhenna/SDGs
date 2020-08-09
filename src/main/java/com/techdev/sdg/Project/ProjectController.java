@@ -31,8 +31,9 @@ public class ProjectController {
     public ResponseEntity<Object> getProject(@PathVariable Long projectId) {
         ResponseEntity<Object> res;
         try {
-            Project p = service.get(projectId);
-            res = new ResponseEntity<Object>(p, HttpStatus.OK);
+             String viewerName=service.currentUserName();
+             Project viewerProject = service.findByViewer(viewerName,projectId);
+             res = new ResponseEntity<Object>(viewerProject, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<Object>("Unexpected error occured: " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
