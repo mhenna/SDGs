@@ -1,9 +1,7 @@
 package com.techdev.sdg.DirectionToImpact;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.techdev.sdg.NGO.NGO;
-import com.techdev.sdg.PrivateSector.PrivateSector;
-//import com.techdev.sdg.NGO.NGO;
+//import com.techdev.sdg.Entity.NGO.NGO;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -27,7 +25,7 @@ public class DirectionToImpact implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "privateSector")
+    @Column(name = "entity")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -35,17 +33,7 @@ public class DirectionToImpact implements Serializable {
             },
             mappedBy = "directionToImpact")
     @JsonBackReference
-    private Set<PrivateSector> privateSectors = new HashSet<>();
-
-    @Column(name = "ngo")
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "directionToImpact")
-    @JsonBackReference
-    private Set<NGO> ngos = new HashSet<>();
+    private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
     public DirectionToImpact() {
     }
@@ -66,20 +54,12 @@ public class DirectionToImpact implements Serializable {
         return name;
     }
 
-    public Set<PrivateSector> getPrivateSectors() {
-        return privateSectors;
+    public Set<com.techdev.sdg.Entity.Entity> getEntities() {
+        return entities;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-        this.privateSectors = privateSectors;
-    }
-
-    public Set<NGO> getNGOs() {
-        return ngos;
-    }
-
-    public void setNGOs(Set<NGO> NGOs) {
-        this.ngos = NGOs;
+    public void setEntities(Set<com.techdev.sdg.Entity.Entity> entities) {
+        this.entities = entities;
     }
 
     @Override

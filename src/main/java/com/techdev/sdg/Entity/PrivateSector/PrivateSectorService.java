@@ -1,8 +1,9 @@
-package com.techdev.sdg.PrivateSector;
+package com.techdev.sdg.Entity.PrivateSector;
 
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpactRepository;
-import com.techdev.sdg.Project.Project;
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.EntityRepository;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
@@ -24,7 +25,7 @@ public class PrivateSectorService {
     private Utils utils;
 
     @Autowired
-    private PrivateSectorRepository repository;
+    private EntityRepository repository;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -44,25 +45,25 @@ public class PrivateSectorService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
-    public PrivateSector save(Map<String, Object> body) {
-        PrivateSector ps = new PrivateSector(
-                Objects.toString(body.get(PrivateSector.NAME), null),
-                Objects.toString(body.get(PrivateSector.EMAIL), null),
-                bcryptEncoder.encode(Objects.toString(body.get(PrivateSector.PASSWORD), null)),
-                Objects.toString(body.get(PrivateSector.MAINCONTACT), null)
+    public Entity save(Map<String, Object> body) {
+        Entity ps = new Entity(
+                Objects.toString(body.get(Entity.NAME), null),
+                Objects.toString(body.get(Entity.EMAIL), null),
+                bcryptEncoder.encode(Objects.toString(body.get(Entity.PASSWORD), null)),
+                Objects.toString(body.get(Entity.MAINCONTACT), null)
         );
 
 
-        List<Long> worklocationIds = utils.getIdsListFromReqBody(body, PrivateSector.WORKLOCATION);
+        List<Long> worklocationIds = utils.getIdsListFromReqBody(body, Entity.WORKLOCATION);
         List<WorkLocation> workLocations = workLocationRepository.findAllById(worklocationIds);
 
-        List<Long> resourceIds = utils.getIdsListFromReqBody(body, PrivateSector.RESOURCE);
+        List<Long> resourceIds = utils.getIdsListFromReqBody(body, Entity.RESOURCE);
         List<Resource> resources = resourceRepository.findAllById(resourceIds);
 
-        List<Long> directionToImpactIds = utils.getIdsListFromReqBody(body, PrivateSector.DIRECTIONTOIMPACT);
+        List<Long> directionToImpactIds = utils.getIdsListFromReqBody(body, Entity.DIRECTIONTOIMPACT);
         List<DirectionToImpact> directionsToImpact = directionToImpactRepository.findAllById(directionToImpactIds);
 
-        List<Long> intendedSDGIds = utils.getIdsListFromReqBody(body, PrivateSector.INTENDEDSDG);
+        List<Long> intendedSDGIds = utils.getIdsListFromReqBody(body, Entity.INTENDEDSDG);
         List<IntendedSDG> intendedSDGs = intendedSDGRepository.findAllById(intendedSDGIds);
 
         ps.getWorkLocations().addAll(workLocations);
@@ -74,18 +75,10 @@ public class PrivateSectorService {
         return ps;
     }
 
-    public PrivateSector findById(Long id) throws Exception {
-        PrivateSector ps = repository.findById(id).get();
-        if (Objects.isNull(ps))
-            throw new Exception ("NGO with specified id does not exist");
-        else
-            return ps;
-    }
-
     public List<Map<String, Object>> findAll() {
-        List<PrivateSector> ps = repository.findAll();
+        List<Entity> ps = repository.findByType("PrivateSector");
         List<Map<String, Object>> res = new ArrayList<>();
-        for (PrivateSector n : ps) {
+        for (Entity n : ps) {
             res.add(n.toMap());
         }
         return res;

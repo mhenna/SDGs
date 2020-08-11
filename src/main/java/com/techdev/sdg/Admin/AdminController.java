@@ -1,6 +1,5 @@
 package com.techdev.sdg.Admin;
 
-import com.techdev.sdg.Entity.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +29,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = Router.APPROVESIGNUPREQUEST, method = RequestMethod.PUT)
-    public ResponseEntity<Object> approveSignupRequest(@PathVariable Long id, @PathVariable String type) {
+    public ResponseEntity<Object> approveSignupRequest(@PathVariable Long id) {
         ResponseEntity<Object> res = null;
         try {
-            service.approveSignupRequest(id, type);
+            service.approveSignupRequest(id);
             Map<String, Object> r = new HashMap<>();
             r.put("message", "Sign-up request has been approved");
             res = new ResponseEntity<>(r, HttpStatus.OK);

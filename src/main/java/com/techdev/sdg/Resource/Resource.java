@@ -1,9 +1,7 @@
 package com.techdev.sdg.Resource;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.techdev.sdg.NGO.NGO;
-import com.techdev.sdg.PrivateSector.PrivateSector;
-//import com.techdev.sdg.NGO.NGO;
+//import com.techdev.sdg.Entity.NGO.NGO;
 import com.techdev.sdg.Project.Project;
 
 import java.io.Serializable;
@@ -28,7 +26,7 @@ public class Resource implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "privateSector")
+    @Column(name = "entity")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -36,17 +34,7 @@ public class Resource implements Serializable {
             },
             mappedBy = "resources")
     @JsonBackReference
-    private Set<PrivateSector> privateSectors = new HashSet<>();
-
-    @Column(name = "ngo")
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "resources")
-    @JsonBackReference
-    private Set<NGO> ngos = new HashSet<>();
+    private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
     @Column(name = "project")
     @ManyToMany(fetch = FetchType.LAZY,
@@ -58,14 +46,6 @@ public class Resource implements Serializable {
     @JsonBackReference
     private Set<Project> projects = new HashSet<>();
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-//                    CascadeType.PERSIST,
-//                    CascadeType.MERGE
-//            },
-//            mappedBy = "Resource")
-//    private Set<NGO> NGOs = new HashSet<>();
-
     public Resource() {
     }
 
@@ -73,9 +53,13 @@ public class Resource implements Serializable {
         setName(name);
     }
 
-    public void setID(Long id) {this.id = id;}
+    public void setID(Long id) {
+        this.id = id;
+    }
 
-    public Long getId(){return id;}
+    public Long getId() {
+        return id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -85,41 +69,25 @@ public class Resource implements Serializable {
         return name;
     }
 
-    public Set<PrivateSector> getPrivateSectors() {
-        return privateSectors;
-    }
-
-    public Set<NGO> getNGOs() {
-        return ngos;
+    public Set<com.techdev.sdg.Entity.Entity> getEntities() {
+        return entities;
     }
 
     public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-        this.privateSectors = privateSectors;
-    }
-
-    public void setNGOs(Set<NGO> NGOs) {
-        this.ngos = NGOs;
+    public void setEntities(Set<com.techdev.sdg.Entity.Entity> entities) {
+        this.entities = entities;
     }
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
-    public void addPrivateSector(PrivateSector ps) {
-        getPrivateSectors().add(ps);
+    public void addEntity(com.techdev.sdg.Entity.Entity entity) {
+        getEntities().add(entity);
     }
-
-//    public Set<NGO> getNGOs() {
-//        return NGOs;
-//    }
-
-//    public void setNGOs(Set<NGO> NGOs) {
-//        this.NGOs = NGOs;
-//    }
 
     @Override
     public String toString() {

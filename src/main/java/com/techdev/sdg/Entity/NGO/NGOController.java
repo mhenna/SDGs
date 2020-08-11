@@ -1,14 +1,12 @@
-package com.techdev.sdg.NGO;
+package com.techdev.sdg.Entity.NGO;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.EntityService;
 import com.techdev.sdg.File.File;
 import com.techdev.sdg.File.FileService;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +23,9 @@ public class NGOController {
     private NGOService service;
 
     @Autowired
+    private EntityService entityService;
+
+    @Autowired
     private FileService fileService;
 
     @RequestMapping(value = Router.REGISTER, method = RequestMethod.POST)
@@ -35,10 +36,10 @@ public class NGOController {
                                            @RequestParam List<Long> intendedSDG,
                                            @RequestParam("file") MultipartFile[] files) {
         ResponseEntity<Object> res;
-        body.put(NGO.RESOURCE, resource);
-        body.put(NGO.WORKLOCATION, workLocation);
-        body.put(NGO.DIRECTIONTOIMPACT, directionToImpact);
-        body.put(NGO.INTENDEDSDG, intendedSDG);
+        body.put(Entity.RESOURCE, resource);
+        body.put(Entity.WORKLOCATION, workLocation);
+        body.put(Entity.DIRECTIONTOIMPACT, directionToImpact);
+        body.put(Entity.INTENDEDSDG, intendedSDG);
 
         List<File> docs = new ArrayList<>();
         try {
@@ -57,7 +58,7 @@ public class NGOController {
                         HttpStatus.BAD_REQUEST);
                 fileService.deleteFiles(docs);
             } else {
-                NGO ngo = service.save(body, docs);
+                Entity ngo = service.save(body, docs);
                 res = new ResponseEntity<>(ngo.toMap(), HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -72,7 +73,7 @@ public class NGOController {
     public ResponseEntity<Object> get(@PathVariable Long id) {
         ResponseEntity<Object> res = null;
         try {
-            NGO ngo = service.findById(id);
+            Entity ngo = entityService.findById(id);
             res = new ResponseEntity<>(ngo.toMap(), HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(), 

@@ -1,4 +1,4 @@
-package com.techdev.sdg.NGO;
+package com.techdev.sdg.Entity.NGO;
 
 public class Router {
     final public static String REGISTER = "ngo/register";

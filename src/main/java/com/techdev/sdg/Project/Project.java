@@ -1,13 +1,12 @@
 package com.techdev.sdg.Project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.Discussion.Discussion;
-import com.techdev.sdg.NGO.NGO;
 import com.techdev.sdg.Utils.StringListConverter;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
-import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Resource.Resource;
 
 
@@ -28,8 +27,7 @@ public class Project implements Serializable {
     final public static String WORKLOCATION = "workLocation";
     final public static String RESOURCE = "resource";
     final public static String INTENDEDSDG = "intendedSDG";
-    final public static String PRIVATESECTOR = "privateSector";
-    final public static String NGOS = "ngo";
+    final public static String Entity = "entity";
     final public static String OWNER = "owner";
     final public static String VIEWER = "viewer";
 
@@ -41,16 +39,8 @@ public class Project implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "owner", nullable = false, unique = true)
-    private String owner;
-
     @Column(name = "aim", nullable = false)
     private String aim;
-
-    //a temp workaround for saving viewers without refactoring
-    @Column(name = "viewer",nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> viewer= new ArrayList<String>();;
 
     @Column(name = "duration", nullable = false)
     private Long duration;
@@ -67,7 +57,6 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<Discussion> discussions = new HashSet<>();
 
-
     @ManyToOne
     @JsonBackReference
     private Project parentProject;
@@ -83,25 +72,27 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<WorkLocation> workLocations = new HashSet<>();
 
-    @Column(name = "privateSector")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
-            },
-            mappedBy = "projects")
-    @JsonBackReference
-    private Set<PrivateSector> privateSectors = new HashSet<>();
+            })
+    @JoinTable(name = "project_entitiesJoined",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "entity_id")})
+    @JsonManagedReference
+    private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
-    @Column(name = "ngo")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
-            },
-            mappedBy = "projects")
-    @JsonBackReference
-    private Set<NGO> ngos = new HashSet<>();
+            })
+    @JoinTable(name = "project_entities_can_view",
+            joinColumns = {@JoinColumn(name = "project_id")},
+            inverseJoinColumns = {@JoinColumn(name = "entity_id")})
+    @JsonManagedReference
+    private Set<com.techdev.sdg.Entity.Entity> viewers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -125,10 +116,15 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<Resource> resources = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "projectOwner", nullable = false)
+    @JsonBackReference
+    private com.techdev.sdg.Entity.Entity owner;
+
     public Project() {
     }
 
-    public Project(String name, String owner, String aim,  Long duration, Long peopleTargeted) {
+    public Project(String name, com.techdev.sdg.Entity.Entity owner, String aim, Long duration, Long peopleTargeted) {
         setName(name);
         setOwner(owner);
         setAim(aim);
@@ -140,7 +136,7 @@ public class Project implements Serializable {
         this.name = name;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(com.techdev.sdg.Entity.Entity owner) {
         this.owner = owner;
     }
 
@@ -149,10 +145,10 @@ public class Project implements Serializable {
     }
 
 
-    public void setViewers(List<String> viewers) {
-
-        this.viewer = viewers;
+    public void setViewers(Set<com.techdev.sdg.Entity.Entity> viewers) {
+        this.viewers = viewers;
     }
+
     public void setDuration(Long duration) {
         this.duration = duration;
     }
@@ -177,8 +173,8 @@ public class Project implements Serializable {
         this.workLocations = workLocations;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-        this.privateSectors = privateSectors;
+    public void setEntities(Set<com.techdev.sdg.Entity.Entity> entities) {
+        this.entities = entities;
     }
 
     public void setIntendedSDGs(Set<IntendedSDG> intendedSDGs) {
@@ -189,12 +185,8 @@ public class Project implements Serializable {
         this.resources = resources;
     }
 
-    public void addPrivateSector(PrivateSector ps) {
-        getPrivateSectors().add(ps);
-    }
-
-    public void setNGOs(Set<NGO> NGOs) {
-        this.ngos = NGOs;
+    public void addEntity(com.techdev.sdg.Entity.Entity entity) {
+        getEntities().add(entity);
     }
 
     public Long getId() {
@@ -205,13 +197,12 @@ public class Project implements Serializable {
         return name;
     }
 
-    public String getOwner() {
+    public com.techdev.sdg.Entity.Entity getOwner() {
         return owner;
     }
 
-
-    public List<String> getViewers() {
-       return viewer;
+    public Set<com.techdev.sdg.Entity.Entity> getViewers() {
+        return viewers;
     }
 
     public String getAim() {
@@ -242,8 +233,8 @@ public class Project implements Serializable {
         return workLocations;
     }
 
-    public Set<PrivateSector> getPrivateSectors() {
-        return privateSectors;
+    public Set<com.techdev.sdg.Entity.Entity> getEntities() {
+        return entities;
     }
 
     public Set<IntendedSDG> getIntendedSDGs() {
@@ -254,22 +245,37 @@ public class Project implements Serializable {
         return resources;
     }
 
-    public Set<NGO> getNGOs() {
-        return ngos;
-   }
-
     @Override
     public String toString() {
         return "\n\tProject: {\n" +
                 "\t\tid: " + id + ",\n" +
                 "\t\tname: " + name + ",\n" +
                 "\t\taim: " + aim + ",\n" +
-                "\t\tviewers: " + viewer + ",\n"+
+                "\t\tviewers: " + viewers + ",\n" +
                 "\t\tduration: " + duration + ",\n" +
                 "\t\tpeople targeted: " + peopleTargeted + ",\n" +
                 "\t\tworkLocation: " + workLocations + ",\n" +
                 "\t\tintendedSDGs: " + intendedSDGs + ",\n" +
-                "\t\resources: " + resources + ",\n" +
+                "\t\rresources: " + resources + ",\n" +
+                "\t\rowner: " + owner + ",\n" +
                 "\t}";
+    }
+
+    public Map toMap() {
+        Map<String, Object> project = new HashMap<>();
+
+        project.put("id", id);
+        project.put("name", name);
+        project.put("aim", aim);
+        project.put("duration", duration);
+        project.put("peopleTargeted", peopleTargeted);
+        project.put("subProjects", subProjects);
+        project.put("workLocations", workLocations);
+        project.put("resources", resources);
+        project.put("intendedSDGs", intendedSDGs);
+        project.put("entities", entities);
+        project.put("owner", owner);
+
+        return project;
     }
 }

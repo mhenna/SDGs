@@ -1,11 +1,6 @@
 package com.techdev.sdg.intendedSDG;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.techdev.sdg.NGO.NGO;
-import com.techdev.sdg.PrivateSector.PrivateSector;
 import com.techdev.sdg.Project.Project;
 
 import java.io.Serializable;
@@ -29,7 +24,7 @@ public class IntendedSDG implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "ngo")
+    @Column(name = "entity")
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -37,17 +32,7 @@ public class IntendedSDG implements Serializable {
             },
             mappedBy = "intendedSDGs")
     @JsonBackReference
-    private Set<NGO> ngos = new HashSet<>();
-
-    @Column(name = "privateSector")
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "intendedSDGs")
-    @JsonBackReference
-    private Set<PrivateSector> privateSectors = new HashSet<>();
+    private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
     @Column(name = "project")
     @ManyToMany(fetch = FetchType.LAZY,
@@ -85,20 +70,12 @@ public class IntendedSDG implements Serializable {
         return name;
     }
 
-    public Set<PrivateSector> getPrivateSectors() {
-        return privateSectors;
+    public Set<com.techdev.sdg.Entity.Entity> getEntities() {
+        return entities;
     }
 
-    public void setPrivateSectors(Set<PrivateSector> privateSectors) {
-        this.privateSectors = privateSectors;
-    }
-
-    public Set<NGO> getNGOs() {
-        return ngos;
-    }
-
-    public void setNGOs(Set<NGO> NGOs) {
-        this.ngos = NGOs;
+    public void setEntities(Set<com.techdev.sdg.Entity.Entity> entities) {
+        this.entities = entities;
     }
 
     @Override
