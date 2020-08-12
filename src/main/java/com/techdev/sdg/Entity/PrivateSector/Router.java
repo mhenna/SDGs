@@ -1,4 +1,4 @@
-package com.techdev.sdg.PrivateSector;
+package com.techdev.sdg.Entity.PrivateSector;
 
 public class Router {
     final public static String REGISTER = "privateSector/register";

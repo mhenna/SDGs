@@ -1,10 +1,5 @@
 package com.techdev.sdg.Utils;
 
-import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
-import com.techdev.sdg.PrivateSector.PrivateSector;
-import com.techdev.sdg.Project.Project;
-import com.techdev.sdg.Resource.Resource;
-import com.techdev.sdg.WorkLocation.WorkLocation;
 import net.minidev.json.JSONValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;

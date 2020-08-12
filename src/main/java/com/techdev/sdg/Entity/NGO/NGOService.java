@@ -1,9 +1,10 @@
-package com.techdev.sdg.NGO;
+package com.techdev.sdg.Entity.NGO;
 
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpactRepository;
+import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.EntityRepository;
 import com.techdev.sdg.File.File;
-import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Project.ProjectRepository;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
@@ -28,7 +29,7 @@ public class NGOService {
     private Utils utils;
 
     @Autowired
-    private NGORepository repository;
+    private EntityRepository repository;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -48,26 +49,26 @@ public class NGOService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
-    public NGO save(Map<String, Object> body, List<File> files) {
-        NGO ngo = new NGO(
-                Objects.toString(body.get(NGO.NAME), null),
-                Objects.toString(body.get(NGO.EMAIL), null),
-                bcryptEncoder.encode(Objects.toString(body.get(NGO.PASSWORD), null)),
-                Objects.toString(body.get(NGO.MAINCONTACT), null),
-                Objects.toString(body.get(NGO.VISION), null)
+    public Entity save(Map<String, Object> body, List<File> files) {
+        Entity ngo = new Entity(
+                Objects.toString(body.get(Entity.NAME), null),
+                Objects.toString(body.get(Entity.EMAIL), null),
+                bcryptEncoder.encode(Objects.toString(body.get(Entity.PASSWORD), null)),
+                Objects.toString(body.get(Entity.MAINCONTACT), null),
+                Objects.toString(body.get(Entity.VISION), null)
         );
 
 
-        List<Long> worklocationIds = utils.getIdsListFromReqBody(body, NGO.WORKLOCATION);
+        List<Long> worklocationIds = utils.getIdsListFromReqBody(body, Entity.WORKLOCATION);
         List<WorkLocation> workLocations = workLocationRepository.findAllById(worklocationIds);
 
-        List<Long> resourceIds = utils.getIdsListFromReqBody(body, NGO.RESOURCE);
+        List<Long> resourceIds = utils.getIdsListFromReqBody(body, Entity.RESOURCE);
         List<Resource> resources = resourceRepository.findAllById(resourceIds);
 
-        List<Long> directionToImpactIds = utils.getIdsListFromReqBody(body, NGO.DIRECTIONTOIMPACT);
+        List<Long> directionToImpactIds = utils.getIdsListFromReqBody(body, Entity.DIRECTIONTOIMPACT);
         List<DirectionToImpact> directionsToImpact = directionToImpactRepository.findAllById(directionToImpactIds);
 
-        List<Long> intendedSDGIds = utils.getIdsListFromReqBody(body, NGO.INTENDEDSDG);
+        List<Long> intendedSDGIds = utils.getIdsListFromReqBody(body, Entity.INTENDEDSDG);
         List<IntendedSDG> intendedSDGs = intendedSDGRepository.findAllById(intendedSDGIds);
 
         ngo.getDirectionToImpact().addAll(directionsToImpact);
@@ -82,8 +83,8 @@ public class NGOService {
         return repository.save(ngo);
     }
 
-    public NGO findById(Long id) throws Exception {
-        NGO ngo = repository.findById(id).get();
+    public Entity findById(Long id) throws Exception {
+        Entity ngo = repository.findById(id).get();
         if (Objects.isNull(ngo))
             throw new Exception ("NGO with specified id does not exist");
         else
@@ -91,9 +92,9 @@ public class NGOService {
     }
 
     public List<Map<String, Object>> findAll() {
-        List<NGO> ngo = repository.findAll();
+        List<Entity> ngo = repository.findAll();
         List<Map<String, Object>> res = new ArrayList<>();
-        for (NGO n : ngo) {
+        for (Entity n : ngo) {
             res.add(n.toMap());
         }
         return res;

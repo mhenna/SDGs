@@ -1,5 +1,6 @@
 package com.techdev.sdg.Project;
 
+import com.techdev.sdg.Entity.Entity;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.Resource.ResourceRepository;
 import com.techdev.sdg.Utils.Utils;
@@ -33,14 +34,13 @@ public class ProjectService {
     @Autowired
     private Utils utils;
 
-    public Project save(Map<String, Object> body) {
+    public Project save(Map<String, Object> body, Entity entity, List<Entity> viewers) {
         Project p = new Project(
                 Objects.toString(body.get(Project.NAME), null),
-                Objects.toString(body.get(Project.OWNER), null),
+                entity,
                 Objects.toString(body.get(Project.AIM), null),
                 Long.parseLong(Objects.toString(body.get(Project.DURATION), null)),
                 Long.parseLong(Objects.toString(body.get(Project.PEOPLETARGETED), null))
-
         );
 
 
@@ -55,8 +55,6 @@ public class ProjectService {
 
         List<Long> subProjectIds = utils.getIdsListFromReqBody(body, Project.SUBPROJECT);
 
-        List<String> viewers = utils.getStrListFromReqBodyObjects(body,Project.VIEWER);
-
         if (!Objects.isNull(subProjectIds)) {
             List<Project> subProjects = repository.findAllById(subProjectIds);
             p.getSubProjects().addAll(subProjects);
@@ -65,36 +63,41 @@ public class ProjectService {
             }
         }
 
-          p.getViewers().addAll(viewers);
-          p.getWorkLocations().addAll(workLocations);
-          p.getResources().addAll(resources);
-          p.getIntendedSDGs().addAll(intendedSDGs);
-          repository.save(p);
-          return p;
+        p.getEntities().add(entity);
+        p.getViewers().addAll(viewers);
+        p.getWorkLocations().addAll(workLocations);
+        p.getResources().addAll(resources);
+        p.getIntendedSDGs().addAll(intendedSDGs);
+
+        repository.save(p);
+
+        return p;
     }
 
     public Project get(Long id) throws Exception {
         Project project = repository.findById(id).get();
         if (Objects.isNull(project))
-            throw new Exception ("project with specified id does not exist");
+            throw new Exception("project with specified id does not exist");
         else
             return project;
     }
+
     public List<Project> findAll() throws Exception {
         List<Project> projects = repository.findAll();
         if (projects.isEmpty())
-            throw new Exception ("cannot get work locations");
+            throw new Exception("cannot get work locations");
         else
             return projects;
     }
 
-    public Project findByViewer(String viewer, long projectId) throws Exception {
+    public Project findByViewer(Entity viewer, long projectId) throws Exception {
         Project project = get(projectId);
-        List<String> viewers= project.getViewers();
-            if (viewers.contains(viewer))
-                return project;
-        throw new Exception ("Not allowed to view this project");
+        Set<Entity> viewers = project.getViewers();
+        if (viewers.contains(viewer))
+            return project;
+        throw new Exception("Not allowed to view this project");
     }
+
     public String currentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
