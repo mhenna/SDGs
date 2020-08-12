@@ -27,7 +27,7 @@ dependencies {
     implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.6.RELEASE'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-
+    compile('org.springframework.boot:spring-boot-starter-mail')
     implementation 'org.springframework.boot:spring-boot-starter'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
     runtimeOnly 'mysql:mysql-connector-java'
