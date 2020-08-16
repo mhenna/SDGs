@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.DirectionToImpact.DirectionToImpact;
 import com.techdev.sdg.File.File;
+import com.techdev.sdg.GeneralForum.Answer.Answer;
+import com.techdev.sdg.GeneralForum.Question.Question;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.WorkLocation.WorkLocation;
@@ -134,6 +136,18 @@ public class Entity implements Serializable {
     @JsonManagedReference
     private Set<File> files = new HashSet<>();
 
+    @OneToMany(mappedBy = "submitter", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Answer> answers = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "submitter", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Question> questions = new HashSet<>();
+
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -222,6 +236,14 @@ public class Entity implements Serializable {
         this.viewableProjects = viewableProjects;
     }
 
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
     public Long getId() { return id; }
 
     public String getName() {
@@ -261,6 +283,10 @@ public class Entity implements Serializable {
         return intendedSDGs;
     }
 
+    public Set<Question> getQuestions(){return questions;}
+
+    public Set<Answer> getAnswers(){return answers;}
+
     public String getType() {
         return type;
     }
@@ -287,6 +313,7 @@ public class Entity implements Serializable {
     public Set<Project> getViewableProjects() {
         return viewableProjects;
     }
+
 
     @Override
     public String toString() {
