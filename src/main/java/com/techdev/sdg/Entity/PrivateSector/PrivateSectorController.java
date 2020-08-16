@@ -19,6 +19,9 @@ public class PrivateSectorController {
     @Autowired
     private PrivateSectorService service;
 
+    @Autowired
+    private EntityService entityService;
+
     @RequestMapping(value = Router.REGISTER, method = RequestMethod.POST)
     public ResponseEntity<Object> register(@RequestBody Map<String, Object> body) {
         ResponseEntity<Object> res;

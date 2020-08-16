@@ -22,6 +22,9 @@ public class NGOController {
     private NGOService service;
 
     @Autowired
+    private EntityService entityService;
+
+    @Autowired
     private FileService fileService;
 
     @RequestMapping(value = Router.REGISTER, method = RequestMethod.POST)
