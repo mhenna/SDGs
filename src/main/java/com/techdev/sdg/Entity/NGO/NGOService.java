@@ -83,8 +83,16 @@ public class NGOService {
         return repository.save(ngo);
     }
 
+    public Entity findById(Long id) throws Exception {
+        Entity ngo = repository.findById(id).get();
+        if (Objects.isNull(ngo))
+            throw new Exception ("NGO with specified id does not exist");
+        else
+            return ngo;
+    }
+
     public List<Map<String, Object>> findAll() {
-        List<Entity> ngo = repository.findByType("NGO");
+        List<Entity> ngo = repository.findAll();
         List<Map<String, Object>> res = new ArrayList<>();
         for (Entity n : ngo) {
             res.add(n.toMap());

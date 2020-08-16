@@ -75,8 +75,16 @@ public class PrivateSectorService {
         return ps;
     }
 
+    public Entity findById(Long id) throws Exception {
+        Entity ps = repository.findById(id).get();
+        if (Objects.isNull(ps))
+            throw new Exception ("NGO with specified id does not exist");
+        else
+            return ps;
+    }
+
     public List<Map<String, Object>> findAll() {
-        List<Entity> ps = repository.findByType("PrivateSector");
+        List<Entity> ps = repository.findAll();
         List<Map<String, Object>> res = new ArrayList<>();
         for (Entity n : ps) {
             res.add(n.toMap());

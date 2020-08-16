@@ -13,7 +13,10 @@ import com.techdev.sdg.intendedSDG.IntendedSDG;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @javax.persistence.Entity
 @Table(name = "Entity")
