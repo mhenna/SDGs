@@ -1,6 +1,7 @@
 package com.techdev.sdg.Entity.NGO;
 
 import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.EntityService;
 import com.techdev.sdg.File.File;
 import com.techdev.sdg.File.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class NGOController {
     public ResponseEntity<Object> get(@PathVariable Long id) {
         ResponseEntity<Object> res = null;
         try {
-            Entity ngo = service.findById(id);
+            Entity ngo = entityService.findById(id);
             res = new ResponseEntity<>(ngo.toMap(), HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(), 
