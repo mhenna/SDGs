@@ -11,4 +11,6 @@ public interface EntityRepository extends JpaRepository<Entity, Long> {
     Entity findByName (String name);
 
     List<Entity> findByIsApproved(Boolean isApproved);
+
+    List<Entity> findByType(String type);
 }

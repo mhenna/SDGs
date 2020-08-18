@@ -1,6 +1,7 @@
 package com.techdev.sdg.Entity.PrivateSector;
 
 import com.techdev.sdg.Entity.Entity;
+import com.techdev.sdg.Entity.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class PrivateSectorController {
     public ResponseEntity<Object> get(@PathVariable Long id) {
         ResponseEntity<Object> res = null;
         try {
-            Entity ps = service.findById(id);
+            Entity ps = entityService.findById(id);
             res = new ResponseEntity<>(ps.toMap(), HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(), 
