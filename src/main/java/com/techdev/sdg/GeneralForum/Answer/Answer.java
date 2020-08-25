@@ -2,6 +2,7 @@ package com.techdev.sdg.GeneralForum.Answer;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.techdev.sdg.GeneralForum.Question.Question;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class Answer implements Serializable {
     final public static String ID = "id";
     final public static String ANSWER = "answer";
     final public static String SUBMITTER = "submitter";
+    final public static String QUESTION = "question";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +25,15 @@ public class Answer implements Serializable {
     @Column(name = "answer", nullable = false)
     private String answer;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade = CascadeType.ALL)
     @JoinColumn(name = "entity_id", nullable = false)
     @JsonBackReference
     private com.techdev.sdg.Entity.Entity submitter;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "question_id", nullable = false)
+    @JsonBackReference
+    private Question question;
 
     public Answer(){}
     public Answer(String answer ) {
@@ -42,6 +48,9 @@ public class Answer implements Serializable {
         this.submitter = submitter;
     }
 
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
     public String getAnswer() {
         return answer;
     }
