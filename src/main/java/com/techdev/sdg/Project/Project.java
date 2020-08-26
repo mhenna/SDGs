@@ -2,8 +2,10 @@ package com.techdev.sdg.Project;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.Discussion.Discussion;
+import com.techdev.sdg.Request.Request;
 import com.techdev.sdg.Utils.StringListConverter;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
@@ -72,6 +74,7 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<WorkLocation> workLocations = new HashSet<>();
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -83,6 +86,7 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<com.techdev.sdg.Entity.Entity> entities = new HashSet<>();
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
@@ -121,6 +125,11 @@ public class Project implements Serializable {
     @JsonBackReference
     private com.techdev.sdg.Entity.Entity owner;
 
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Request> requests = new HashSet<>();
+
     public Project() {
     }
 
@@ -143,7 +152,6 @@ public class Project implements Serializable {
     public void setAim(String aim) {
         this.aim = aim;
     }
-
 
     public void setViewers(Set<com.techdev.sdg.Entity.Entity> viewers) {
         this.viewers = viewers;
@@ -183,6 +191,10 @@ public class Project implements Serializable {
 
     public void setResources(Set<Resource> resources) {
         this.resources = resources;
+    }
+
+    public void setRequests(Set<Request> requests) {
+        this.requests = requests;
     }
 
     public void addEntity(com.techdev.sdg.Entity.Entity entity) {
@@ -243,6 +255,10 @@ public class Project implements Serializable {
 
     public Set<Resource> getResources() {
         return resources;
+    }
+
+    public Set<Request> getRequests() {
+        return requests;
     }
 
     @Override

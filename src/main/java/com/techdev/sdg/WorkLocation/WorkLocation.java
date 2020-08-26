@@ -2,6 +2,8 @@ package com.techdev.sdg.WorkLocation;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.techdev.sdg.Project.Project;
 
 import javax.persistence.*;
@@ -82,6 +84,11 @@ public class WorkLocation implements Serializable {
 
     public void addEntity(com.techdev.sdg.Entity.Entity entity) {
         getEntities().add(entity);
+    }
+
+    @JsonIgnore
+    public Set<Project> getProjects() {
+        return projects;
     }
 
     @Override

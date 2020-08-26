@@ -8,6 +8,7 @@ import com.techdev.sdg.File.File;
 import com.techdev.sdg.GeneralForum.Answer.Answer;
 import com.techdev.sdg.GeneralForum.Question.Question;
 import com.techdev.sdg.Project.Project;
+import com.techdev.sdg.Request.Request;
 import com.techdev.sdg.Resource.Resource;
 import com.techdev.sdg.WorkLocation.WorkLocation;
 import com.techdev.sdg.intendedSDG.IntendedSDG;
@@ -141,18 +142,21 @@ public class Entity implements Serializable {
     @JsonManagedReference
     private Set<Answer> answers = new HashSet<>();
 
-
     @OneToMany(mappedBy = "submitter", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Question> questions = new HashSet<>();
-
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonIgnore
     private Set<Project> projectsCreated = new HashSet<>();
+
+    @OneToMany(mappedBy = "requestor", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Request> requests = new HashSet<>();
 
     public Entity() {
     }
@@ -244,6 +248,10 @@ public class Entity implements Serializable {
         this.answers = answers;
     }
 
+    public void setRequests(Set<Request> requests) {
+        this.requests = requests;
+    }
+
     public Long getId() { return id; }
 
     public String getName() {
@@ -297,6 +305,11 @@ public class Entity implements Serializable {
 
     public Set<File> getFiles() {
         return files;
+    }
+
+    @JsonIgnore
+    public Set<Request> getRequests() {
+        return requests;
     }
 
     @JsonIgnore

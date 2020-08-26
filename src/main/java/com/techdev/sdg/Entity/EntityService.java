@@ -3,6 +3,8 @@ package com.techdev.sdg.Entity;
 import com.techdev.sdg.Project.Project;
 import com.techdev.sdg.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,5 +50,8 @@ public class EntityService {
         return entities;
     }
 
-
+    public String currentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 }

@@ -97,9 +97,4 @@ public class ProjectService {
             return project;
         throw new Exception("Not allowed to view this project");
     }
-
-    public String currentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
-    }
 }
