@@ -2,6 +2,7 @@ package com.techdev.sdg.GeneralForum.Question;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.techdev.sdg.GeneralForum.Answer.Answer;
 
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @javax.persistence.Entity
 @Table(name = "Question")
 public class Question implements Serializable {
