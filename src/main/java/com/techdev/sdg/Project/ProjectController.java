@@ -23,7 +23,7 @@ public class ProjectController {
     public ResponseEntity<Object> addProject(@RequestBody Map<String, Object> body) {
         ResponseEntity<Object> res;
         try {
-            String user = service.currentUserName();
+            String user = entityService.currentUserName();
             Entity e = entityService.findByUsername(user);
             List<Entity> viewers = entityService.findProjectViewers(body);
             Project p = service.save(body, e, viewers);
@@ -39,7 +39,7 @@ public class ProjectController {
     public ResponseEntity<Object> getProject(@PathVariable Long projectId) {
         ResponseEntity<Object> res;
         try {
-            String viewerName = service.currentUserName();
+            String viewerName = entityService.currentUserName();
             Entity entity = entityService.findByUsername(viewerName);
             Project viewerProject = service.findByViewer(entity, projectId);
             res = new ResponseEntity<Object>(viewerProject.toMap(), HttpStatus.OK);

@@ -46,4 +46,15 @@ public class Utils {
 
         sender.send(message);
     }
+
+    public void sendEmail(String to, String body, String subject) throws Exception {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setTo(to);
+        helper.setText(body);
+        helper.setSubject(subject);
+
+        sender.send(message);
+    }
 }
