@@ -54,7 +54,9 @@ public class ProjectController {
     public ResponseEntity<Object> getProjects() {
         ResponseEntity<Object> res = null;
         try {
-            List<Project> projects = service.findAll();
+            String name = entityService.currentUserName();
+            Entity viewer = entityService.findByUsername(name);
+            List<Project> projects = service.findViewerProjects(viewer);
             res = new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),

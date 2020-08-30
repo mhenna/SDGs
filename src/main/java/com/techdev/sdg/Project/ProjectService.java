@@ -90,6 +90,11 @@ public class ProjectService {
             return projects;
     }
 
+    public List<Project> findViewerProjects(Entity viewer) {
+        List<Project> projects = repository.findByViewersContaining(viewer);
+        return projects;
+    }
+
     public Project findByViewer(Entity viewer, long projectId) throws Exception {
         Project project = get(projectId);
         Set<Entity> viewers = project.getViewers();
