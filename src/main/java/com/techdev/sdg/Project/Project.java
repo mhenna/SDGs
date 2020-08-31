@@ -120,7 +120,7 @@ public class Project implements Serializable {
     @JsonManagedReference
     private Set<Resource> resources = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "projectOwner", nullable = false)
     @JsonBackReference
     private com.techdev.sdg.Entity.Entity owner;
