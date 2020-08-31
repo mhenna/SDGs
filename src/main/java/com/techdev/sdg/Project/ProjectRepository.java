@@ -11,4 +11,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Project findProjectById(long id);
     List<Project> findByViewersContaining(Entity viewer);
+    List<Project> findByOwner(Entity owner);
 }

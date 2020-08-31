@@ -10,11 +10,11 @@ import com.techdev.sdg.intendedSDG.IntendedSDG;
 import com.techdev.sdg.intendedSDG.IntendedSDGRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProjectService {
@@ -90,16 +90,48 @@ public class ProjectService {
             return projects;
     }
 
-    public List<Project> findViewerProjects(Entity viewer) {
+    public List<Project> findViewerProjects(Entity viewer, Entity all, Entity typed) {
         List<Project> projects = repository.findByViewersContaining(viewer);
-        return projects;
+        List<Project> projectsWithTypeAll = repository.findByViewersContaining(all);
+        List<Project> projectsWithViewerType = repository.findByViewersContaining(typed);
+        List<Project> projectsCreated = repository.findByOwner(viewer);
+        List<Project> projectList = Stream.of(projects, projectsWithTypeAll, projectsWithViewerType, projectsCreated)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
+
+        return projectList;
     }
 
     public Project findByViewer(Entity viewer, long projectId) throws Exception {
         Project project = get(projectId);
         Set<Entity> viewers = project.getViewers();
-        if (viewers.contains(viewer))
+        boolean flag = false;
+
+        if (project.getOwner().getId().equals(viewer.getId()))
+            flag = true;
+        else {
+            if (viewers.size() == 1) {
+                String type = viewers.iterator().next().getType();
+                if (type.equals("All") || (type.equals("PrivateSectors") && viewer.getType().equals("PrivateSector"))
+                        || (type.equals("NGOs") && viewer.getType().equals("NGO")))
+                    flag = true;
+                else if (type.equals("PrivateSector") || type.equals("NGO"))
+                    if (viewers.contains(viewer))
+                        flag = true;
+                    else
+                        flag = false;
+                else
+                    flag = false;
+            } else {
+                if (viewers.contains(viewer))
+                    flag = true;
+                else flag = false;
+            }
+        }
+        if (flag)
             return project;
-        throw new Exception("Not allowed to view this project");
+        else
+            throw new Exception("Not allowed to view this project");
     }
 }

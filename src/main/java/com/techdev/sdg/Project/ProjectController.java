@@ -56,7 +56,14 @@ public class ProjectController {
         try {
             String name = entityService.currentUserName();
             Entity viewer = entityService.findByUsername(name);
-            List<Project> projects = service.findViewerProjects(viewer);
+            Entity all = entityService.findById(1L);
+            Entity typed;
+            if (viewer.getType().equals("PrivateSector"))
+                typed = entityService.findById(2L);
+            else
+                typed = entityService.findById(3L);
+
+            List<Project> projects = service.findViewerProjects(viewer, all, typed);
             res = new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (Exception e) {
             res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
