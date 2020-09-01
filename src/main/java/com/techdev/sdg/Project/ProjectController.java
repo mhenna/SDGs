@@ -71,4 +71,20 @@ public class ProjectController {
         }
         return res;
     }
+
+    @RequestMapping(value = Router.GETCREATED, method = RequestMethod.GET)
+    public ResponseEntity<Object> getCreatedProjects() {
+        ResponseEntity<Object> res = null;
+        try {
+            String name = entityService.currentUserName();
+            Entity viewer = entityService.findByUsername(name);
+            List<Project> projects = service.findByOwner(viewer);
+            res = new ResponseEntity<>(projects, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e);
+            res = new ResponseEntity<>("Unexpected error occured: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return res;
+    }
 }

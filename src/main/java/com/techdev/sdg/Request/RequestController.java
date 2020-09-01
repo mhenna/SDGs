@@ -87,7 +87,9 @@ public class RequestController {
             Entity entity = entityService.findByUsername(name);
             List<Map<String, Object>> requests = new ArrayList<>();
             for (Request r : entity.getRequests()) {
-                requests.add(r.toMap());
+                Map<String, Object> map = r.toMap();
+                map.put("owner", r.getProject().getOwner());
+                requests.add(map);
             }
 
             res = new ResponseEntity<>(requests, HttpStatus.OK);
