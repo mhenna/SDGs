@@ -134,4 +134,8 @@ public class ProjectService {
         else
             throw new Exception("Not allowed to view this project");
     }
+    
+    public List<Project> findByOwner(Entity owner) {
+        return repository.findByOwner(owner);
+    }
 }
