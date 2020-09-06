@@ -33,6 +33,8 @@ public class RequestController {
             String name = entityService.currentUserName();
             Entity requestor = entityService.findByUsername(name);
             Project project = projectService.get(Long.parseLong(String.valueOf(body.get(Request.PROJECT))));
+            if (project.getOwner().getName().equals(name))
+                throw new Exception("Cannot send a join request for a project you created");
             for (Request r : requestor.getRequests())
                 if (r.getProject().getId().equals(project.getId()))
                     throw (new Exception("You have already submitted a request to join this project"));
