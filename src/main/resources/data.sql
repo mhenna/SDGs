@@ -1,0 +1,16 @@
+insert into entity(id, name, vision, email, password, main_contact, is_approved, type) values (1, "all", "all", "all@dell.com", "mostafa", "all@dell.com", true, "All");
+insert into entity(id, name, vision, email, password, main_contact, is_approved, type) values (2, "private sector", "private sector", "privatesector@dell.com", "mostafa", "privatesector@dell.com", true, "PrivateSector");
+insert into entity(id, name, vision, email, password, main_contact, is_approved, type) values (3, "ngo", "ngo", "ngo@dell.com", "mostafa", "ngo@dell.com", true, "NGO");
+insert into direction_to_impact values (1, "dti1");
+insert into direction_to_impact values (2, "dti2");
+insert into direction_to_impact values (3, "dti3");
+insert into intendedsdg values (1, "sdg1");
+insert into intendedsdg values (2, "sdg2");
+insert into intendedsdg values (3, "sdg3");
+insert into resource values (1, "r1");
+insert into resource values (2, "r2");
+insert into resource values (3, "r3");
+insert into work_location values (1, "wl1");
+insert into work_location values (2, "wl2");
+insert into work_location values (3, "wl3");
+insert into admin (id, name, email, password) values (1, "mostafa", "mostafa@dell.com", "$2a$10$Q4W9mrdD6iFL5lIkscJgBua5rJqkJuKn8DJ9ihBmbw0ClhpQlpY4i");

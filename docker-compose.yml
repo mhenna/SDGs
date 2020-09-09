@@ -1,0 +1,32 @@
+version: '2'
+services:
+  frontend:
+    image: mhenna/sdgs-ui:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    links:
+      - backend
+  backend:
+    image: mhenna/sdgs:latest
+    container_name: backend
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    restart: always
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: sdg
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    expose:
+      - 3306
+    restart: always
